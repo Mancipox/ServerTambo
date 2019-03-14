@@ -61,7 +61,7 @@ EntityManagerFactory emf;
     @Override
     public List<Question> questionsexc(User user) throws Exception {
     EntityManager em = emf.createEntityManager();
-        String consulta = "SELECT q FROM Question q WHERE q.studentEmail !=:user and q.teacherEmail !=:user";
+        String consulta = "SELECT q FROM Question q WHERE (q.teacherEmail =:user OR q.teacherEmail =null) AND q.studentEmail !=:user";
         List<Question> questions = null;
         try {
             questions = em.createQuery(consulta).setParameter("user", user).getResultList();

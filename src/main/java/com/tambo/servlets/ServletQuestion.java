@@ -119,18 +119,41 @@ public class ServletQuestion extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        String opt = request.getParameter("option");
         String jsonQ = request.getParameter("Question");
         try {
-            Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
-            Meeting mtemp = qtemp.getMeetingId();
-            int id = mdao.makeMeet(mtemp);
-            mtemp.setMeetingId(id);
-            qtemp.setMeetingId(mtemp);
-            System.out.println(qtemp.getMeetingId().getMeetingDate());
-            udao.updateUser(qtemp.getStudentEmail());
-            boolean res = qdao.makeQuestion(qtemp);
-            out.println(Utils.toJson(res));
-            System.out.println(Utils.toJson(res));
+            switch (opt) {
+               case ("student"): {
+                    Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
+                    User utemp = qtemp.getTeacherEmail();
+                    utemp.setKarma(utemp.getKarma() + qtemp.getKarma());
+                    qtemp.setKarma(0);
+                    boolean res = (qdao.updateQuestion(qtemp) && udao.updateUser(utemp));
+                    out.println(Utils.toJson(res));
+                    System.out.println(Utils.toJson(res));
+                    break;
+                }
+                case ("teacher"): {
+                    Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
+                    boolean res = qdao.updateQuestion(qtemp);
+                    out.println(Utils.toJson(res));
+                    System.out.println(Utils.toJson(res));
+                    break;
+                }
+                case ("create"): {
+                    Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
+                    Meeting mtemp = qtemp.getMeetingId();
+                    int id = mdao.makeMeet(mtemp);
+                    mtemp.setMeetingId(id);
+                    qtemp.setMeetingId(mtemp);
+                    System.out.println(qtemp.getMeetingId().getMeetingDate());
+                    udao.updateUser(qtemp.getStudentEmail());
+                    boolean res = qdao.makeQuestion(qtemp);
+                    out.println(Utils.toJson(res));
+                    System.out.println(Utils.toJson(res));
+                    break;
+                }
+            }
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -158,7 +181,7 @@ public class ServletQuestion extends HttpServlet {
                     String jsonQ = request.getParameter("Question");
                     Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
                     User utemp = qtemp.getTeacherEmail();
-                    utemp.setKarma(utemp.getKarma()+qtemp.getKarma());
+                    utemp.setKarma(utemp.getKarma() + qtemp.getKarma());
                     qtemp.setKarma(0);
                     boolean res = (qdao.updateQuestion(qtemp) && udao.updateUser(utemp));
                     out.println(Utils.toJson(res));
