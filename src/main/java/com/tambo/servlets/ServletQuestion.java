@@ -6,9 +6,11 @@
 package com.tambo.servlets;
 
 import com.tambo.model.DAO.IMeetingDAO;
+import com.tambo.model.DAO.IPersistenceFacade;
 import com.tambo.model.DAO.IQuestionDAO;
 import com.tambo.model.DAO.IUserDAO;
 import com.tambo.model.DAO.MeetingDAO;
+import com.tambo.model.DAO.PersistenceFacade;
 import com.tambo.model.DAO.QuestionDAO;
 import com.tambo.model.DAO.UserDAO;
 import com.tambo.model.VO.Meeting;
@@ -17,6 +19,7 @@ import com.tambo.model.VO.User;
 import com.tambo.utils.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,9 +34,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletQuestion extends HttpServlet {
 
-    IQuestionDAO qdao = new QuestionDAO();
-    IMeetingDAO mdao = new MeetingDAO();
-    IUserDAO udao = new UserDAO();
+    IPersistenceFacade facade= new PersistenceFacade(new Question());
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,6 +63,8 @@ public class ServletQuestion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        List<String> crit = new ArrayList<>();
+                    List values = new ArrayList<>();
         List<Question> questions;
         User usertemp;
         String jsonQuestions = "";
@@ -70,28 +73,40 @@ public class ServletQuestion extends HttpServlet {
             String opt = request.getParameter("option");
             switch (opt) {
                 case "all":
-                    questions = qdao.questions();
+                    questions = facade.search();
                     jsonQuestions = Utils.toJson(questions);
                     System.out.println(jsonQuestions.replace("{", "{\n").replace("}", "}\n"));
                     out.print(jsonQuestions);
                     break;
                 case "askedBy":
+                    
+                    
                     usertemp = (User) Utils.fromJson(request.getParameter("user"), User.class);
-                    questions = qdao.askedBy(usertemp);
+                    crit.add("o.studentEmail =");
+                    values.add(usertemp);
+                    questions = facade.searchByCriteria(crit, values);
                     jsonQuestions = Utils.toJson(questions);
                     System.out.println(jsonQuestions.replace("{", "{\n").replace("}", "}\n"));
                     out.print(jsonQuestions);
                     break;
                 case "answeredBy":
+
                     usertemp = (User) Utils.fromJson(request.getParameter("user"), User.class);
-                    questions = qdao.answeredBy(usertemp);
+                    crit.add("o.teacherEmail =");
+                    values.add(usertemp);
+                    questions = facade.searchByCriteria(crit, values);
                     jsonQuestions = Utils.toJson(questions);
                     System.out.println(jsonQuestions.replace("{", "{\n").replace("}", "}\n"));
                     out.print(jsonQuestions);
                     break;
                 case "except":
+                   
                     usertemp = (User) Utils.fromJson(request.getParameter("user"), User.class);
-                    questions = qdao.questionsexc(usertemp);
+                    crit.add("o.studentEmail !=");
+                    crit.add("o.teacherEmail =");
+                    values.add(usertemp);
+                    values.add(null);
+                    questions = facade.searchByCriteria(crit, values);
                     jsonQuestions = Utils.toJson(questions);
                     System.out.println(jsonQuestions.replace("{", "{\n").replace("}", "}\n"));
                     out.print(jsonQuestions);
@@ -122,13 +137,8 @@ public class ServletQuestion extends HttpServlet {
         String jsonQ = request.getParameter("Question");
         try {
             Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
-            Meeting mtemp = qtemp.getMeetingId();
-            int id = mdao.makeMeet(mtemp);
-            mtemp.setMeetingId(id);
-            qtemp.setMeetingId(mtemp);
-            System.out.println(qtemp.getMeetingId().getMeetingDate());
-            udao.updateUser(qtemp.getStudentEmail());
-            boolean res = qdao.makeQuestion(qtemp);
+            facade= new PersistenceFacade(qtemp);
+            boolean res = facade.make();
             out.println(Utils.toJson(res));
             System.out.println(Utils.toJson(res));
         } catch (Exception ex) {
@@ -148,6 +158,8 @@ public class ServletQuestion extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                List<String> crit = new ArrayList<>();
+                    List values = new ArrayList<>();
 //la modificacion de registros ira aqui      
 //  processRequest(request, response);
         PrintWriter out = response.getWriter();
@@ -160,7 +172,21 @@ public class ServletQuestion extends HttpServlet {
                     User utemp = qtemp.getTeacherEmail();
                     utemp.setKarma(utemp.getKarma()+qtemp.getKarma());
                     qtemp.setKarma(0);
-                    boolean res = (qdao.updateQuestion(qtemp) && udao.updateUser(utemp));
+                    qtemp.setTeacherEmail(utemp);
+                    facade= new PersistenceFacade(qtemp);
+                    crit.add("o.description=");
+                    values.add(qtemp.getDescription());
+                    crit.add("o.karma=");
+                    values.add(qtemp.getKarma());
+                    crit.add("o.state=");
+                    values.add(qtemp.getState());
+                    crit.add("o.studentEmail=");
+                    values.add(qtemp.getStudentEmail());
+                    crit.add("o.teacherEmail=");
+                    values.add(qtemp.getTeacherEmail());
+                    crit.add("o.questionId=");
+                    values.add(qtemp.getQuestionId());
+                    boolean res = facade.update(crit,values);
                     out.println(Utils.toJson(res));
                     System.out.println(Utils.toJson(res));
                     break;
@@ -168,7 +194,20 @@ public class ServletQuestion extends HttpServlet {
                 case ("teacher"): {
                     String jsonQ = request.getParameter("Question");
                     Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
-                    boolean res = qdao.updateQuestion(qtemp);
+                                        facade= new PersistenceFacade(qtemp);
+                    crit.add("o.description=");
+                    values.add(qtemp.getDescription());
+                    crit.add("o.karma=");
+                    values.add(qtemp.getKarma());
+                    crit.add("o.state=");
+                    values.add(qtemp.getState());
+                    crit.add("o.studentEmail=");
+                    values.add(qtemp.getStudentEmail());
+                    crit.add("o.teacherEmail=");
+                    values.add(qtemp.getTeacherEmail());
+                    crit.add("o.questionId=");
+                    values.add(qtemp.getQuestionId());
+                    boolean res = facade.update(crit,values);
                     out.println(Utils.toJson(res));
                     System.out.println(Utils.toJson(res));
                     break;
