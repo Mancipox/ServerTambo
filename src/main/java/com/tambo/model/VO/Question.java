@@ -133,6 +133,12 @@ public class Question implements Serializable {
     public void setTeacherEmail(User teacherEmail) {
         this.teacherEmail = teacherEmail;
     }
+    public void setAll(Question question){
+        this.description=question.getDescription();
+        this.karma=question.karma;
+        this.state=question.state;
+        this.teacherEmail=question.teacherEmail;
+    }
 
     @Override
     public int hashCode() {

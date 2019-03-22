@@ -5,10 +5,70 @@
  */
 package com.tambo.model.managers;
 
+import com.tambo.facade.IPersistenceFacade;
+import com.tambo.facade.PersistenceFacadeFactory;
+import com.tambo.model.VO.User;
+import com.tambo.utils.Utils;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author usuario
  */
 public class UserManager {
-    
+
+    User user = new User();
+    List<String> crit = new ArrayList<>();
+    List values = new ArrayList<>();
+    List<User> users;
+    IPersistenceFacade facade;
+    String jsonObj;
+
+    public UserManager() {
+        facade = new PersistenceFacadeFactory().getNewFacade();
+    }
+
+    public String getUsers() throws Exception {
+        users = facade.search(user);
+        jsonObj = Utils.toJson(users);
+        return jsonObj;
+    }
+
+    public String getUser(String email) throws Exception {
+        crit.add("o.email=");
+        values.add(email);
+        users = facade.searchByCriteria(user, crit, values);
+        user = users.get(0);
+        jsonObj = Utils.toJson(user);
+        crit.clear();
+        values.clear();
+        return jsonObj;
+    }
+
+    public String isUser(String jsonU) throws Exception {
+        user = (User) Utils.fromJson(jsonU, User.class);
+        crit.add("o.email=");
+        crit.add("o.password=");
+        values.add(user.getEmail());
+        values.add(user.getPassword());
+        users = facade.searchByCriteria(user, crit, values);
+        if (users.size() != 0) {
+            return Utils.toJson(users.get(0));
+        } else {
+            return Utils.toJson(null);
+        }
+    }
+
+    public String persist(String jsonU) throws Exception {
+        user = (User) Utils.fromJson(jsonU, User.class);
+        boolean res = facade.make(user);
+        return Utils.toJson(res);
+    }
+
+    public String update(String jsonU) throws Exception {
+        user = (User) Utils.fromJson(jsonU, User.class);
+        boolean res = facade.update(user, "o.email", user.getEmail());
+        return Utils.toJson(res);
+    }
 }

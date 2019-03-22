@@ -77,20 +77,21 @@ public class QuestionManager {
     }
 
     public String updateQuestion(String jsonQuestion) throws Exception {
+        boolean res;
         question = (Question) Utils.fromJson(jsonQuestion, Question.class);
-        crit.add("o.description=");
-        values.add(question.getDescription());
-        crit.add("o.karma=");
-        values.add(question.getKarma());
-        crit.add("o.state=");
-        values.add(question.getState());
-        crit.add("o.studentEmail=");
-        values.add(question.getStudentEmail());
-        crit.add("o.teacherEmail=");
-        values.add(question.getTeacherEmail());
-        crit.add("o.questionId=");
-        values.add(question.getQuestionId());
-        boolean res = facade.update(question, crit, values);
+
+        if (question.getTeacherEmail()!= null){
+        
+         res= facade.update(question, "o.questionId", question.getQuestionId()) && 
+                facade.update(question.getMeetingId(), "o.meetingId", question.getMeetingId().getMeetingId()) && 
+                facade.update(question.getStudentEmail(), "o.email", question.getStudentEmail().getEmail()) &&
+                facade.update(question.getTeacherEmail(), "o.email", question.getTeacherEmail().getEmail());
+        }
+        else{
+             res= facade.update(question, "o.questionId", question.getQuestionId()) && 
+                facade.update(question.getMeetingId(), "o.meetingId", question.getMeetingId().getMeetingId()) && 
+                facade.update(question.getStudentEmail(), "o.email", question.getStudentEmail().getEmail());
+        }
         crit.clear();
         values.clear();
         return Utils.toJson(res);
