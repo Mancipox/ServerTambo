@@ -46,10 +46,12 @@ public class QuestionManager {
                 jsonQuestions = Utils.toJson(questions);
                 break;
             case "except":
-                crit.add("o.studentEmail !=");
-                crit.add("o.teacherEmail =");
+                crit.add("(o.teacherEmail =:param0 OR o.teacherEmail=null) AND o.studentEmail != ");
                 values.add(usertemp);
-                values.add(null);
+              //  crit.add("o.studentEmail !=");
+               // crit.add("o.teacherEmail =");
+                values.add(usertemp);
+                //values.add(null);
                 questions = facade.searchByCriteria(question, crit, values);
                 jsonQuestions = Utils.toJson(questions);
                 break;
