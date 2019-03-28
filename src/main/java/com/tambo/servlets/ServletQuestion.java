@@ -6,6 +6,8 @@
 package com.tambo.servlets;
 
 import com.tambo.model.managers.QuestionManager;
+import com.tambo.utils.TokenUtil;
+import io.jsonwebtoken.Claims;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -54,6 +56,10 @@ public class ServletQuestion extends HttpServlet {
             throws ServletException, IOException {
         try {            
             PrintWriter out = response.getWriter();
+            String token = request.getParameter("authorization");
+            System.out.println(token+" esto llega de Cliente");
+            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
+            System.out.println(claims.getSubject());
             String opt = request.getParameter("option");
             if (opt.equals("all")) {
                 out.print(qmanager.getQuestions());
@@ -104,6 +110,8 @@ public class ServletQuestion extends HttpServlet {
 //FALTA actualizar profesor     
         PrintWriter out = response.getWriter();
         try {
+            String token = request.getParameter("authorization");
+            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
             String jsonQ = request.getParameter("Question");
             out.print(qmanager.updateQuestion(jsonQ));
         } catch (Exception ex) {

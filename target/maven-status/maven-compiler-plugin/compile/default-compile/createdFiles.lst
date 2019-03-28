@@ -8,6 +8,7 @@ com\tambo\model\DAO\IMeetingDAO.class
 com\tambo\model\VO\Question_.class
 com\tambo\servlets\ServletQuestion.class
 com\tambo\model\VO\Question.class
+com\tambo\utils\TokenUtil.class
 com\tambo\model\DAO\QuestionDAO.class
 com\tambo\servlets\ServletMeeting.class
 com\tambo\facade\PersistenceFacade.class

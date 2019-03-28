@@ -10,7 +10,9 @@ import com.google.gson.GsonBuilder;
 import com.tambo.model.DAO.IMeetingDAO;
 import com.tambo.model.DAO.MeetingDAO;
 import com.tambo.model.VO.Meeting;
+import com.tambo.utils.TokenUtil;
 import com.tambo.utils.Utils;
+import io.jsonwebtoken.Claims;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -54,6 +56,8 @@ public class ServletMeeting extends HttpServlet {
          int id=0;
             try {
                 PrintWriter out = response.getWriter();
+                String token = request.getParameter("authorization");
+            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
         String opt=request.getParameter("option");
         switch(opt){
             case "all":
@@ -95,6 +99,10 @@ public class ServletMeeting extends HttpServlet {
         int id;
         try {
             PrintWriter out = response.getWriter();
+            String token = request.getParameter("authorization");
+            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
+            claims.getSubject();
+            
             Meeting meet=(Meeting)Utils.fromJson(request.getParameter("meet"), Meeting.class);
             id=md.makeMeet(meet);
             System.out.println(Utils.toJson(id));

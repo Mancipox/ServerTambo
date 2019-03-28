@@ -11,6 +11,7 @@ import com.tambo.model.VO.User;
 import com.tambo.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
+import com.tambo.utils.TokenUtil;
 
 /**
  *
@@ -47,17 +48,27 @@ public class UserManager {
     }
 
     public String isUser(String jsonU) throws Exception {
-        user = (User) Utils.fromJson(jsonU, User.class);
+        User user = (User) Utils.fromJson(jsonU, User.class);
+        System.out.println("Usuario es desde manager"+jsonU);
         crit.add("o.email=");
         crit.add("o.password=");
         values.add(user.getEmail());
         values.add(user.getPassword());
-        users = facade.searchByCriteria(user, crit, values);
+        List<User> users = facade.searchByCriteria(user, crit, values);
         if (users.size() != 0) {
-            return Utils.toJson(users.get(0));
+            user=users.get(0);
+            values.clear();
+            crit.clear();
+            return Utils.toJson(user);
         } else {
             return Utils.toJson(null);
         }
+        
+    }
+    public String userToken(String jsonU){
+         user = (User) Utils.fromJson(jsonU, User.class);
+         String token = TokenUtil.createJWT("Log01", "UserManager", user.getUserName(), 900000);
+         return token;
     }
 
     public String persist(String jsonU) throws Exception {
