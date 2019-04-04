@@ -63,6 +63,7 @@ EntityManagerFactory emf;
     EntityManager em = emf.createEntityManager();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         String consulta = "SELECT q FROM Question q WHERE (q.teacherEmail =:user OR q.teacherEmail =null) AND q.studentEmail !=:user";
 =======
         String consulta = "SELECT q FROM Question q WHERE q.studentEmail !=:user and q.teacherEmail =null";
@@ -70,6 +71,10 @@ EntityManagerFactory emf;
 =======
         String consulta = "SELECT q FROM Question q WHERE q.studentEmail !=:user and q.teacherEmail =null";
 >>>>>>> origin/JWTImp
+=======
+
+        String consulta = "SELECT q FROM Question q WHERE (q.teacherEmail =:user OR q.teacherEmail =null) AND q.studentEmail !=:user";
+>>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
         List<Question> questions = null;
         try {
             questions = em.createQuery(consulta).setParameter("user", user).getResultList();

@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -31,6 +34,7 @@ public class MeetingManager {
     return Utils.toJson(res);
     }
 }
+<<<<<<< HEAD
 =======
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -47,3 +51,5 @@ public class MeetingManager {
     
 }
 >>>>>>> origin/JWTImp
+=======
+>>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b

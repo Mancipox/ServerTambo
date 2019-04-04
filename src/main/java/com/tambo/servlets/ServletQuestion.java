@@ -88,6 +88,7 @@ public class ServletQuestion extends HttpServlet {
             throws ServletException, IOException {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         PrintWriter out = response.getWriter();
         String opt = request.getParameter("option");
         String jsonQ = request.getParameter("Question");
@@ -125,11 +126,15 @@ public class ServletQuestion extends HttpServlet {
                 }
             }
 =======
+=======
+
+>>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
         //FALTA actualizar estudiante
         try {
             PrintWriter out = response.getWriter();
             String jsonQ = request.getParameter("Question");
             out.print(qmanager.persistQuestion(jsonQ));
+<<<<<<< HEAD
 >>>>>>> 3rd_iter
 =======
         //FALTA actualizar estudiante
@@ -138,6 +143,9 @@ public class ServletQuestion extends HttpServlet {
             String jsonQ = request.getParameter("Question");
             out.print(qmanager.persistQuestion(jsonQ));
 >>>>>>> origin/JWTImp
+=======
+
+>>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -160,6 +168,7 @@ public class ServletQuestion extends HttpServlet {
 //FALTA actualizar profesor     
         PrintWriter out = response.getWriter();
         try {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             switch (opt) {
@@ -193,6 +202,12 @@ public class ServletQuestion extends HttpServlet {
             String jsonQ = request.getParameter("Question");
             out.print(qmanager.updateQuestion(jsonQ));
 >>>>>>> origin/JWTImp
+=======
+
+            String jsonQ = request.getParameter("Question");
+            out.print(qmanager.updateQuestion(jsonQ));
+
+>>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
