@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.tambo.model.DAO.IMeetingDAO;
 import com.tambo.model.DAO.MeetingDAO;
 import com.tambo.model.VO.Meeting;
+import com.tambo.model.managers.MeetingManager;
 import com.tambo.utils.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author usuario
  */
 public class ServletMeeting extends HttpServlet {
-    IMeetingDAO md= new MeetingDAO();
+ MeetingManager mmanager= new MeetingManager();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,21 +50,17 @@ public class ServletMeeting extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          processRequest(request, response); 
-         List<Meeting> meets;
-         String jsonMeets="";
-         int id=0;
+ 
             try {
                 PrintWriter out = response.getWriter();
         String opt=request.getParameter("option");
         switch(opt){
             case "all":
-                meets=md.meets();
-                jsonMeets=Utils.toJson(meets);
-                System.out.println(jsonMeets.replace("{", "{\n").replace("}", "}\n"));
-               out.print(jsonMeets);
+                out.print(mmanager.getMeets());
                 break;
             default:
                 System.out.println("no se ha ingresado un parametro aceptable");
+                out.print("[]");
                 break;
         }
 
@@ -92,13 +89,10 @@ public class ServletMeeting extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id;
         try {
             PrintWriter out = response.getWriter();
-            Meeting meet=(Meeting)Utils.fromJson(request.getParameter("meet"), Meeting.class);
-            id=md.makeMeet(meet);
-            System.out.println(Utils.toJson(id));
-            out.print(Utils.toJson(id));
+            String meet=request.getParameter("meet");
+            out.print(mmanager.persist(meet));
         } catch (Exception ex) {
             Logger.getLogger(ServletMeeting.class.getName()).log(Level.SEVERE, null, ex);
         }

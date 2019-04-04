@@ -61,7 +61,11 @@ EntityManagerFactory emf;
     @Override
     public List<Question> questionsexc(User user) throws Exception {
     EntityManager em = emf.createEntityManager();
+<<<<<<< HEAD
         String consulta = "SELECT q FROM Question q WHERE (q.teacherEmail =:user OR q.teacherEmail =null) AND q.studentEmail !=:user";
+=======
+        String consulta = "SELECT q FROM Question q WHERE q.studentEmail !=:user and q.teacherEmail =null";
+>>>>>>> 3rd_iter
         List<Question> questions = null;
         try {
             questions = em.createQuery(consulta).setParameter("user", user).getResultList();
@@ -107,7 +111,8 @@ EntityManagerFactory emf;
     public boolean updateQuestion(Question question) throws Exception {
      EntityManager em = emf.createEntityManager();
         String consulta = "UPDATE Question q SET q.description=:qdesc, q.karma=:qkarma"
-                + ",q.state=:qstate,q.studentEmail=:qstudent,q.teacherEmail=:qteacher WHERE q.questionId=:qid";
+                + ",q.state=:qstate,q.studentEmail=:qstudent,q.teacherEmail=:qteacher "
+                + "WHERE q.questionId=:qid";
         try {
             em.getTransaction().begin();
             em.createQuery(consulta).setParameter("qdesc",question.getDescription())

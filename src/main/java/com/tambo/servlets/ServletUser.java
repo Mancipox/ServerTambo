@@ -8,6 +8,7 @@ package com.tambo.servlets;
 import com.tambo.model.DAO.IUserDAO;
 import com.tambo.model.DAO.UserDAO;
 import com.tambo.model.VO.User;
+import com.tambo.model.managers.UserManager;
 import com.tambo.utils.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletUser extends HttpServlet {
 
-    IUserDAO udao = new UserDAO();
+    UserManager umanager = new UserManager();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,26 +57,15 @@ public class ServletUser extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String opt = request.getParameter("option");
-        List<User> users;
-        User user;
-        String jsonObj = "";
         try {
             PrintWriter out = response.getWriter();
-            switch (opt) {
-                case "all":
-                    users = udao.getAllUsers();
-                    jsonObj = Utils.toJson(users);
-                    System.out.println(jsonObj);
-                    out.println(jsonObj);
-                    break;
-                case "byEmail":
-                    String email = request.getParameter("email");
-                    user = udao.searchUser(email);
-                    jsonObj = Utils.toJson(user);
-                    System.out.println(jsonObj);
-                    out.println(jsonObj);
-                    break;
+            if (opt.equals("all")) {
+                out.print(umanager.getUsers());
+            } else {
+                String email = request.getParameter("email");
+                out.print(umanager.getUser(email));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,24 +83,15 @@ public class ServletUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String opt = request.getParameter("option");
-        User user;
         try {
             PrintWriter out = response.getWriter();
             String jsonU = request.getParameter("user");
-            user = (User) Utils.fromJson(jsonU, User.class);
-            boolean res;
-            switch (opt) {
-                case "create":
-                    res = udao.addUser(user);
-                    System.out.println(Utils.toJson(res));
-                    out.print(Utils.toJson(res));
-                    break;
-                case "login":
-                    User userresp = udao.isUser(user);
-                    out.print(Utils.toJson(userresp));
-                    System.out.println(Utils.toJson(userresp));
-                    break;
+            if (opt.equals("create")) {
+                out.print(umanager.persist(jsonU));
+            } else {
+                out.print(umanager.isUser(jsonU));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,14 +109,10 @@ public class ServletUser extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user;
         try {
             PrintWriter out = response.getWriter();
             String jsonU = request.getParameter("user");
-            user = (User) Utils.fromJson(jsonU, User.class);
-            boolean res = udao.updateUser(user);
-            System.out.println(Utils.toJson(res));
-            out.print(Utils.toJson(out));
+            out.print(umanager.update(jsonU));
         } catch (Exception e) {
             e.printStackTrace();
         }
