@@ -97,17 +97,28 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
                     break;
                     }catch(Exception e){
                         this.make(object);
+                        break;
                     }
                 case "User":
+                    try{
                     User datau = (User) em.createQuery(query).setParameter("param0", value).getSingleResult();
                     datau.setAll((User) object);
                     em.persist(datau);
                     break;
+                    }catch(Exception e){
+                        this.make(object);
+                        break;
+                    }
                 case "Meeting":
+                    try{
                     Meeting datam = (Meeting) em.createQuery(query).setParameter("param0", value).getSingleResult();
                     datam.setAll((Meeting) object);
                     em.persist(datam);
                     break;
+                    }catch(Exception e){
+                        this.make(object);
+                        break;
+                    }
             }
             em.getTransaction().commit();
             em.close();
