@@ -6,11 +6,8 @@
 package com.tambo.servlets;
 
 import com.tambo.model.managers.QuestionManager;
-<<<<<<< HEAD
-=======
 import com.tambo.utils.TokenUtil;
 import io.jsonwebtoken.Claims;
->>>>>>> origin/JWTImp
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -86,66 +83,14 @@ public class ServletQuestion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        PrintWriter out = response.getWriter();
-        String opt = request.getParameter("option");
-        String jsonQ = request.getParameter("Question");
-        try {
-            switch (opt) {
-               case ("student"): {
-                    Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
-                    User utemp = qtemp.getTeacherEmail();
-                    utemp.setKarma(utemp.getKarma() + qtemp.getKarma());
-                    qtemp.setKarma(0);
-                    boolean res = (qdao.updateQuestion(qtemp) && udao.updateUser(utemp));
-                    out.println(Utils.toJson(res));
-                    System.out.println(Utils.toJson(res));
-                    break;
-                }
-                case ("teacher"): {
-                    Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
-                    boolean res = qdao.updateQuestion(qtemp);
-                    out.println(Utils.toJson(res));
-                    System.out.println(Utils.toJson(res));
-                    break;
-                }
-                case ("create"): {
-                    Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
-                    Meeting mtemp = qtemp.getMeetingId();
-                    int id = mdao.makeMeet(mtemp);
-                    mtemp.setMeetingId(id);
-                    qtemp.setMeetingId(mtemp);
-                    System.out.println(qtemp.getMeetingId().getMeetingDate());
-                    udao.updateUser(qtemp.getStudentEmail());
-                    boolean res = qdao.makeQuestion(qtemp);
-                    out.println(Utils.toJson(res));
-                    System.out.println(Utils.toJson(res));
-                    break;
-                }
-            }
-=======
-=======
 
->>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
+
         //FALTA actualizar estudiante
         try {
             PrintWriter out = response.getWriter();
             String jsonQ = request.getParameter("Question");
             out.print(qmanager.persistQuestion(jsonQ));
-<<<<<<< HEAD
->>>>>>> 3rd_iter
-=======
-        //FALTA actualizar estudiante
-        try {
-            PrintWriter out = response.getWriter();
-            String jsonQ = request.getParameter("Question");
-            out.print(qmanager.persistQuestion(jsonQ));
->>>>>>> origin/JWTImp
-=======
 
->>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -168,46 +113,12 @@ public class ServletQuestion extends HttpServlet {
 //FALTA actualizar profesor     
         PrintWriter out = response.getWriter();
         try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            switch (opt) {
-                case ("student"): {
-                    String jsonQ = request.getParameter("Question");
-                    Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
-                    User utemp = qtemp.getTeacherEmail();
-                    utemp.setKarma(utemp.getKarma() + qtemp.getKarma());
-                    qtemp.setKarma(0);
-                    boolean res = (qdao.updateQuestion(qtemp) && udao.updateUser(utemp));
-                    out.println(Utils.toJson(res));
-                    System.out.println(Utils.toJson(res));
-                    break;
-                }
-                case ("teacher"): {
-                    String jsonQ = request.getParameter("Question");
-                    Question qtemp = (Question) Utils.fromJson(jsonQ, Question.class);
-                    boolean res = qdao.updateQuestion(qtemp);
-                    out.println(Utils.toJson(res));
-                    System.out.println(Utils.toJson(res));
-                    break;
-                }
-            }
-=======
-            String jsonQ = request.getParameter("Question");
-            out.print(qmanager.updateQuestion(jsonQ));
->>>>>>> 3rd_iter
-=======
+
             String token = request.getParameter("authorization");
             Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
             String jsonQ = request.getParameter("Question");
             out.print(qmanager.updateQuestion(jsonQ));
->>>>>>> origin/JWTImp
-=======
 
-            String jsonQ = request.getParameter("Question");
-            out.print(qmanager.updateQuestion(jsonQ));
-
->>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }

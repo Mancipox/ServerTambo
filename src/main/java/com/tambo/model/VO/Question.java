@@ -56,14 +56,7 @@ public class Question implements Serializable {
     @Column(name = "state")
     private Boolean state;
     @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
-<<<<<<< HEAD
-<<<<<<< HEAD
     @ManyToOne(optional = false)
-=======
->>>>>>> origin/JWTImp
-=======
-    @ManyToOne(optional = false)
->>>>>>> 0882a9bc95e9f1f3b15a299694d090b51e18c70b
     @OneToOne(cascade=CascadeType.PERSIST)
     private Meeting meetingId;
     @JoinColumn(name = "student_email", referencedColumnName = "email")
