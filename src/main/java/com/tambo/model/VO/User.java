@@ -166,6 +166,14 @@ public class User implements Serializable {
     public void setKarma(int karma) {
         this.karma = karma;
     }
+    public void setAll(User user){
+        this.firstName=user.getFirstName();
+        this.gender=user.getGender();
+        this.karma=user.getKarma();
+        this.lastName=user.getLastName();
+        this.phone=user.getPhone();
+        this.userName=user.getUserName();
+    }
 
   
     @Override

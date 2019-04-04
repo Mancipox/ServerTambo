@@ -95,7 +95,10 @@ public class Meeting implements Serializable {
         this.place = place;
     }
 
-    
+    public void setAll(Meeting meet){
+        this.meetingDate=meet.getMeetingDate();
+        this.place=meet.getPlace();
+    }
 
     @Override
     public int hashCode() {

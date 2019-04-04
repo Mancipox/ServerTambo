@@ -7,6 +7,7 @@ package com.tambo.model.VO;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -55,6 +57,7 @@ public class Question implements Serializable {
     private Boolean state;
     @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
     @ManyToOne(optional = false)
+    @OneToOne(cascade=CascadeType.PERSIST)
     private Meeting meetingId;
     @JoinColumn(name = "student_email", referencedColumnName = "email")
     @ManyToOne(optional = false)
@@ -130,6 +133,12 @@ public class Question implements Serializable {
 
     public void setTeacherEmail(User teacherEmail) {
         this.teacherEmail = teacherEmail;
+    }
+    public void setAll(Question question){
+        this.description=question.getDescription();
+        this.karma=question.karma;
+        this.state=question.state;
+        this.teacherEmail=question.teacherEmail;
     }
 
     @Override

@@ -5,18 +5,10 @@
  */
 package com.tambo.servlets;
 
-import com.tambo.model.DAO.IMeetingDAO;
-import com.tambo.model.DAO.IQuestionDAO;
-import com.tambo.model.DAO.IUserDAO;
-import com.tambo.model.DAO.MeetingDAO;
-import com.tambo.model.DAO.QuestionDAO;
-import com.tambo.model.DAO.UserDAO;
-import com.tambo.model.VO.Meeting;
-import com.tambo.model.VO.Question;
-import com.tambo.model.VO.User;
-import com.tambo.utils.Utils;
+import com.tambo.model.managers.QuestionManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,10 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author usuario
  */
 public class ServletQuestion extends HttpServlet {
-
-    IQuestionDAO qdao = new QuestionDAO();
-    IMeetingDAO mdao = new MeetingDAO();
-    IUserDAO udao = new UserDAO();
+    
+    QuestionManager qmanager = new QuestionManager();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,7 +37,7 @@ public class ServletQuestion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -62,46 +52,15 @@ public class ServletQuestion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Question> questions;
-        User usertemp;
-        String jsonQuestions = "";
-        try {
+        try {            
             PrintWriter out = response.getWriter();
             String opt = request.getParameter("option");
-            switch (opt) {
-                case "all":
-                    questions = qdao.questions();
-                    jsonQuestions = Utils.toJson(questions);
-                    System.out.println(jsonQuestions.replace("{", "{\n").replace("}", "}\n"));
-                    out.print(jsonQuestions);
-                    break;
-                case "askedBy":
-                    usertemp = (User) Utils.fromJson(request.getParameter("user"), User.class);
-                    questions = qdao.askedBy(usertemp);
-                    jsonQuestions = Utils.toJson(questions);
-                    System.out.println(jsonQuestions.replace("{", "{\n").replace("}", "}\n"));
-                    out.print(jsonQuestions);
-                    break;
-                case "answeredBy":
-                    usertemp = (User) Utils.fromJson(request.getParameter("user"), User.class);
-                    questions = qdao.answeredBy(usertemp);
-                    jsonQuestions = Utils.toJson(questions);
-                    System.out.println(jsonQuestions.replace("{", "{\n").replace("}", "}\n"));
-                    out.print(jsonQuestions);
-                    break;
-                case "except":
-                    usertemp = (User) Utils.fromJson(request.getParameter("user"), User.class);
-                    questions = qdao.questionsexc(usertemp);
-                    jsonQuestions = Utils.toJson(questions);
-                    System.out.println(jsonQuestions.replace("{", "{\n").replace("}", "}\n"));
-                    out.print(jsonQuestions);
-                    break;
-                default:
-                    System.out.println("no se ha ingresado un parametro aceptable");
-                    break;
+            if (opt.equals("all")) {
+                out.print(qmanager.getQuestions());
+            } else {
+                String usertemp = request.getParameter("user");
+                out.print(qmanager.getQuestions(opt, usertemp));
             }
-
-            //processRequest(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,6 +77,7 @@ public class ServletQuestion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
         PrintWriter out = response.getWriter();
         String opt = request.getParameter("option");
         String jsonQ = request.getParameter("Question");
@@ -154,10 +114,17 @@ public class ServletQuestion extends HttpServlet {
                     break;
                 }
             }
+=======
+        //FALTA actualizar estudiante
+        try {
+            PrintWriter out = response.getWriter();
+            String jsonQ = request.getParameter("Question");
+            out.print(qmanager.persistQuestion(jsonQ));
+>>>>>>> 3rd_iter
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     /**
@@ -171,11 +138,12 @@ public class ServletQuestion extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//la modificacion de registros ira aqui      
-//  processRequest(request, response);
+        List<String> crit = new ArrayList<>();
+        List values = new ArrayList<>();
+//FALTA actualizar profesor     
         PrintWriter out = response.getWriter();
-        String opt = request.getParameter("option");
         try {
+<<<<<<< HEAD
             switch (opt) {
                 case ("student"): {
                     String jsonQ = request.getParameter("Question");
@@ -197,6 +165,10 @@ public class ServletQuestion extends HttpServlet {
                     break;
                 }
             }
+=======
+            String jsonQ = request.getParameter("Question");
+            out.print(qmanager.updateQuestion(jsonQ));
+>>>>>>> 3rd_iter
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
