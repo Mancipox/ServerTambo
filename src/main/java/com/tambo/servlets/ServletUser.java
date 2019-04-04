@@ -9,6 +9,10 @@ import com.tambo.model.DAO.IUserDAO;
 import com.tambo.model.DAO.UserDAO;
 import com.tambo.model.VO.User;
 import com.tambo.model.managers.UserManager;
+<<<<<<< HEAD
+=======
+import com.tambo.utils.TokenUtil;
+>>>>>>> origin/JWTImp
 import com.tambo.utils.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -86,10 +90,18 @@ public class ServletUser extends HttpServlet {
         try {
             PrintWriter out = response.getWriter();
             String jsonU = request.getParameter("user");
+<<<<<<< HEAD
             if (opt.equals("create")) {
                 out.print(umanager.persist(jsonU));
             } else {
                 out.print(umanager.isUser(jsonU));
+=======
+            System.out.println("Usuario es "+jsonU);
+            if (opt.equals("create")) {
+                out.print(umanager.persist(jsonU));
+            } else {
+                out.println(umanager.isUser(jsonU)+"/"+umanager.userToken(jsonU));
+>>>>>>> origin/JWTImp
             }
 
         } catch (Exception e) {

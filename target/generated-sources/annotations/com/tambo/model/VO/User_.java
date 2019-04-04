@@ -5,10 +5,14 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 @Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-03-14T08:04:50")
 =======
 @Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-03-22T18:50:55")
 >>>>>>> 3rd_iter
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-03-27T16:26:23")
+>>>>>>> origin/JWTImp
 @StaticMetamodel(User.class)
 public class User_ { 
 

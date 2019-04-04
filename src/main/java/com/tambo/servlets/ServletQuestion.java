@@ -6,6 +6,11 @@
 package com.tambo.servlets;
 
 import com.tambo.model.managers.QuestionManager;
+<<<<<<< HEAD
+=======
+import com.tambo.utils.TokenUtil;
+import io.jsonwebtoken.Claims;
+>>>>>>> origin/JWTImp
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -54,6 +59,10 @@ public class ServletQuestion extends HttpServlet {
             throws ServletException, IOException {
         try {            
             PrintWriter out = response.getWriter();
+            String token = request.getParameter("authorization");
+            System.out.println(token+" esto llega de Cliente");
+            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
+            System.out.println(claims.getSubject());
             String opt = request.getParameter("option");
             if (opt.equals("all")) {
                 out.print(qmanager.getQuestions());
@@ -77,6 +86,7 @@ public class ServletQuestion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
 <<<<<<< HEAD
         PrintWriter out = response.getWriter();
         String opt = request.getParameter("option");
@@ -121,6 +131,13 @@ public class ServletQuestion extends HttpServlet {
             String jsonQ = request.getParameter("Question");
             out.print(qmanager.persistQuestion(jsonQ));
 >>>>>>> 3rd_iter
+=======
+        //FALTA actualizar estudiante
+        try {
+            PrintWriter out = response.getWriter();
+            String jsonQ = request.getParameter("Question");
+            out.print(qmanager.persistQuestion(jsonQ));
+>>>>>>> origin/JWTImp
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -143,6 +160,7 @@ public class ServletQuestion extends HttpServlet {
 //FALTA actualizar profesor     
         PrintWriter out = response.getWriter();
         try {
+<<<<<<< HEAD
 <<<<<<< HEAD
             switch (opt) {
                 case ("student"): {
@@ -169,6 +187,12 @@ public class ServletQuestion extends HttpServlet {
             String jsonQ = request.getParameter("Question");
             out.print(qmanager.updateQuestion(jsonQ));
 >>>>>>> 3rd_iter
+=======
+            String token = request.getParameter("authorization");
+            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
+            String jsonQ = request.getParameter("Question");
+            out.print(qmanager.updateQuestion(jsonQ));
+>>>>>>> origin/JWTImp
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }

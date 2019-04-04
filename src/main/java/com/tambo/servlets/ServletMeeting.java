@@ -10,8 +10,13 @@ import com.google.gson.GsonBuilder;
 import com.tambo.model.DAO.IMeetingDAO;
 import com.tambo.model.DAO.MeetingDAO;
 import com.tambo.model.VO.Meeting;
+<<<<<<< HEAD
 import com.tambo.model.managers.MeetingManager;
+=======
+import com.tambo.utils.TokenUtil;
+>>>>>>> origin/JWTImp
 import com.tambo.utils.Utils;
+import io.jsonwebtoken.Claims;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -53,6 +58,8 @@ public class ServletMeeting extends HttpServlet {
  
             try {
                 PrintWriter out = response.getWriter();
+                String token = request.getParameter("authorization");
+            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
         String opt=request.getParameter("option");
         switch(opt){
             case "all":
@@ -91,8 +98,19 @@ public class ServletMeeting extends HttpServlet {
             throws ServletException, IOException {
         try {
             PrintWriter out = response.getWriter();
+<<<<<<< HEAD
             String meet=request.getParameter("meet");
             out.print(mmanager.persist(meet));
+=======
+            String token = request.getParameter("authorization");
+            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
+            claims.getSubject();
+            
+            Meeting meet=(Meeting)Utils.fromJson(request.getParameter("meet"), Meeting.class);
+            id=md.makeMeet(meet);
+            System.out.println(Utils.toJson(id));
+            out.print(Utils.toJson(id));
+>>>>>>> origin/JWTImp
         } catch (Exception ex) {
             Logger.getLogger(ServletMeeting.class.getName()).log(Level.SEVERE, null, ex);
         }

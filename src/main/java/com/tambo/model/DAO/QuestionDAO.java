@@ -62,10 +62,14 @@ EntityManagerFactory emf;
     public List<Question> questionsexc(User user) throws Exception {
     EntityManager em = emf.createEntityManager();
 <<<<<<< HEAD
+<<<<<<< HEAD
         String consulta = "SELECT q FROM Question q WHERE (q.teacherEmail =:user OR q.teacherEmail =null) AND q.studentEmail !=:user";
 =======
         String consulta = "SELECT q FROM Question q WHERE q.studentEmail !=:user and q.teacherEmail =null";
 >>>>>>> 3rd_iter
+=======
+        String consulta = "SELECT q FROM Question q WHERE q.studentEmail !=:user and q.teacherEmail =null";
+>>>>>>> origin/JWTImp
         List<Question> questions = null;
         try {
             questions = em.createQuery(consulta).setParameter("user", user).getResultList();
