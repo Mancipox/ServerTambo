@@ -90,10 +90,14 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
             String dataclass = object.getClass().getSimpleName();
             switch (dataclass) {
                 case "Question":
+                    try{
                     Question dataq = (Question) em.createQuery(query).setParameter("param0", value).getSingleResult();
                     dataq.setAll((Question) object);
                     em.persist(dataq);
                     break;
+                    }catch(Exception e){
+                        this.make(object);
+                    }
                 case "User":
                     User datau = (User) em.createQuery(query).setParameter("param0", value).getSingleResult();
                     datau.setAll((User) object);

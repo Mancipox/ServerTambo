@@ -74,9 +74,7 @@ public class QuestionManager {
     }
 
     public String persistQuestion(String question) throws Exception {
-        Question qtemp = (Question) Utils.fromJson(question, Question.class);
-        boolean res = facade.make(qtemp);
-        return Utils.toJson(res);
+        return updateQuestion(question);
     }
 
     public String updateQuestion(String jsonQuestion) throws Exception {
