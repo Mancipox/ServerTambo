@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.tambo.facade;
-
+import com.tambo.model.VO.Class;
 import com.tambo.model.VO.Meeting;
 import com.tambo.model.VO.Question;
 import com.tambo.model.VO.User;
@@ -114,6 +114,16 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
                     Meeting datam = (Meeting) em.createQuery(query).setParameter("param0", value).getSingleResult();
                     datam.setAll((Meeting) object);
                     em.persist(datam);
+                    break;
+                    }catch(Exception e){
+                        this.make(object);
+                        break;
+                    }
+                      case "Class":
+                    try{
+                    Class datac = (Class) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                    datac.setAll((Class) object);
+                    em.persist(datac);
                     break;
                     }catch(Exception e){
                         this.make(object);

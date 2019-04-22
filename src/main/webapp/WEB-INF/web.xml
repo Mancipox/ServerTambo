@@ -12,6 +12,10 @@
         <servlet-name>ServletMeeting</servlet-name>
         <servlet-class>com.tambo.servlets.ServletMeeting</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletClass</servlet-name>
+        <servlet-class>com.tambo.servlets.ServletClass</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletUser</servlet-name>
         <url-pattern>/ServletUser</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ServletMeeting</servlet-name>
         <url-pattern>/ServletMeeting</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletClass</servlet-name>
+        <url-pattern>/ServletClass</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

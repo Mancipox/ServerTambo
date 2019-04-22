@@ -5,6 +5,7 @@
  */
 package com.tambo.servlets;
 
+import com.tambo.model.managers.ClassManager;
 import com.tambo.model.managers.QuestionManager;
 import com.tambo.utils.TokenUtil;
 import io.jsonwebtoken.Claims;
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletQuestion extends HttpServlet {
     
     QuestionManager qmanager = new QuestionManager();
-
+ClassManager cmanager = new ClassManager();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -56,13 +57,13 @@ public class ServletQuestion extends HttpServlet {
             throws ServletException, IOException {
         try {            
             PrintWriter out = response.getWriter();
-            String token = request.getParameter("authorization");
-            System.out.println(token+" esto llega de Cliente");
-            Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
-            System.out.println(claims.getSubject());
+            //String token = request.getParameter("authorization");
+            //System.out.println(token+" esto llega de Cliente");
+            //Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
+            //System.out.println(claims.getSubject());
             String opt = request.getParameter("option");
             if (opt.equals("all")) {
-                out.print(qmanager.getQuestions());
+                out.print(cmanager.getClasss());
             } else {
                 String usertemp = request.getParameter("user");
                 out.print(qmanager.getQuestions(opt, usertemp));

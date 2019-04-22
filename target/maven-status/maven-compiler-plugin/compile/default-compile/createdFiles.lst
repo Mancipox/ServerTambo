@@ -1,3 +1,5 @@
+com\tambo\model\VO\Class_.class
+com\tambo\model\managers\ClassManager.class
 com\tambo\facade\IPersistenceFacade.class
 com\tambo\model\DAO\MeetingDAO.class
 com\tambo\model\VO\Meeting.class
@@ -12,17 +14,20 @@ com\tambo\utils\TokenUtil.class
 com\tambo\model\DAO\QuestionDAO.class
 com\tambo\servlets\ServletMeeting.class
 com\tambo\facade\PersistenceFacade.class
+com\tambo\model\VO\Topic_.class
 com\mycompany\tamboserver\exceptions\RollbackFailureException.class
 com\mycompany\tamboserver\exceptions\NonexistentEntityException.class
 com\tambo\model\DAO\IQuestionDAO.class
 com\mycompany\tamboserver\exceptions\IllegalOrphanException.class
 com\tambo\utils\Utils$TestExclStrat.class
 com\tambo\facade\PersistenceFacadeFactory.class
+com\tambo\model\VO\Topic.class
 com\tambo\model\managers\UserManager.class
 com\tambo\model\VO\User_.class
 com\tambo\utils\Utils.class
 com\tambo\model\DAO\UserDAO.class
 com\tambo\model\VO\User.class
 com\tambo\model\managers\MeetingManager.class
+com\tambo\model\VO\Class.class
 com\tambo\model\DAO\IUserDAO.class
 com\tambo\servlets\ServletUser.class
