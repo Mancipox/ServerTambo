@@ -14,6 +14,7 @@ com\tambo\utils\TokenUtil.class
 com\tambo\model\DAO\QuestionDAO.class
 com\tambo\servlets\ServletMeeting.class
 com\tambo\facade\PersistenceFacade.class
+com\tambo\servlets\ServletClass.class
 com\tambo\model\VO\Topic_.class
 com\mycompany\tamboserver\exceptions\RollbackFailureException.class
 com\mycompany\tamboserver\exceptions\NonexistentEntityException.class

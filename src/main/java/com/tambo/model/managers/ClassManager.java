@@ -4,6 +4,7 @@ package com.tambo.model.managers;
 import com.tambo.facade.IPersistenceFacade;
 import com.tambo.facade.PersistenceFacadeFactory;
 import com.tambo.model.VO.Class;
+import com.tambo.model.VO.Topic;
 import com.tambo.model.VO.User;
 import com.tambo.utils.Utils;
 import java.util.ArrayList;
@@ -27,7 +28,11 @@ public class ClassManager {
     }
 
     public String getClasss(String option, String user) throws Exception {
-        User usertemp = (User) Utils.fromJson(user, User.class);
+        Topic topictemp=null;
+        User usertemp=null;
+        if(option.equals("byTopic")) topictemp = (Topic) Utils.fromJson(user, Topic.class);
+        else usertemp = (User) Utils.fromJson(user, User.class);
+        
         switch (option) {
             case "askedBy":
                 crit.add("o.studentEmail =");
@@ -44,10 +49,18 @@ public class ClassManager {
             case "except":
                 crit.add("(o.teacherEmail =:param0 OR o.teacherEmail=null) AND o.studentEmail != ");
                 values.add(usertemp);
-              //  crit.add("o.studentEmail !=");
-               // crit.add("o.teacherEmail =");
+                classxs = facade.searchByCriteria(classx, crit, values);
+                jsonClasss = Utils.toJson(classxs);
+                break;
+                 case "calendar":
+                crit.add("o.teacherEmail =:param0 OR o.studentEmail = ");
                 values.add(usertemp);
-                //values.add(null);
+                classxs = facade.searchByCriteria(classx, crit, values);
+                jsonClasss = Utils.toJson(classxs);
+                break;
+                 case "byTopic":
+                crit.add("o.topicId =");
+                values.add(topictemp);
                 classxs = facade.searchByCriteria(classx, crit, values);
                 jsonClasss = Utils.toJson(classxs);
                 break;
