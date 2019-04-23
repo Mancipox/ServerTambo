@@ -72,9 +72,7 @@ public class UserManager {
     }
 
     public String persist(String jsonU) throws Exception {
-        user = (User) Utils.fromJson(jsonU, User.class);
-        boolean res = facade.make(user);
-        return Utils.toJson(res);
+        return this.update(jsonU);
     }
 
     public String update(String jsonU) throws Exception {
