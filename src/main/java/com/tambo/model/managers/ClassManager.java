@@ -28,10 +28,8 @@ public class ClassManager {
     }
 
     public String getClasss(String option, String user) throws Exception {
-        Topic topictemp=null;
         User usertemp=null;
-        if(option.equals("byTopic")) topictemp = (Topic) Utils.fromJson(user, Topic.class);
-        else usertemp = (User) Utils.fromJson(user, User.class);
+        if(!option.equals("byTopic"))  usertemp = (User) Utils.fromJson(user, User.class);
         
         switch (option) {
             case "askedBy":
@@ -59,8 +57,8 @@ public class ClassManager {
                 jsonClasss = Utils.toJson(classxs);
                 break;
                  case "byTopic":
-                crit.add("o.topicId =");
-                values.add(topictemp);
+                crit.add("o.topicId.description =");
+                values.add(user);
                 classxs = facade.searchByCriteria(classx, crit, values);
                 jsonClasss = Utils.toJson(classxs);
                 break;
@@ -89,7 +87,7 @@ public class ClassManager {
         boolean res;
         classx = (Class) Utils.fromJson(jsonClass, Class.class);
 
-        if (classx.getTeacherEmail()!= null){
+        if (classx.getTeacherEmail()!=null){
         
          res= facade.update(classx, "o.classId", classx.getClassId()) && 
                 facade.update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId()) && 

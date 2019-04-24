@@ -88,7 +88,7 @@ ClassManager cmanager = new ClassManager();
         //FALTA actualizar estudiante
         try {
             PrintWriter out = response.getWriter();
-            String jsonQ = request.getParameter("Question");
+            String jsonQ = request.getParameter("Class");
             out.print(cmanager.persistClass(jsonQ));
 
         } catch (Exception ex) {
