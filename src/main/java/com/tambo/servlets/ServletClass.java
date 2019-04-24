@@ -63,7 +63,11 @@ ClassManager cmanager = new ClassManager();
             String opt = request.getParameter("option");
             if (opt.equals("all")) {
                 out.print(cmanager.getClasss());
-            } else {
+            } else if(opt.equals("byTopic")){
+                String usertemp = request.getParameter("user");
+                String topic = request.getParameter("topic");
+                out.print(cmanager.getClass(opt,usertemp,topic));
+            } else{
                 String usertemp = request.getParameter("user");
                 out.print(cmanager.getClasss(opt, usertemp));
             }
