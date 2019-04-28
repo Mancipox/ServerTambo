@@ -56,7 +56,33 @@ public class Meeting implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "place")
     private String place;
- 
+ @Column(name = "y_pos")
+    private Double yPos;
+    @Column(name = "x_pos")
+    private Double xPos;
+
+    public Double getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(Double yPos) {
+        this.yPos = yPos;
+    }
+
+    public Double getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(Double xPos) {
+        this.xPos = xPos;
+    }
+
+    public Meeting(Date meetingDate, String place, Double yPos, Double xPos) {
+        this.meetingDate = meetingDate;
+        this.place = place;
+        this.yPos = yPos;
+        this.xPos = xPos;
+    }
 
     public Meeting() {
     }

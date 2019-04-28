@@ -53,8 +53,29 @@ public class Class implements Serializable {
     @NotNull
     @Column(name = "karma")
     private int karma;
+    @Column(name = "downvote")
+    private int downvote;
     @Column(name = "state")
     private Boolean state;
+
+    public Class(Integer classId, String description, int karma, int downvote, Boolean state, Meeting meetingId, User studentEmail, Topic topicId) {
+        this.classId = classId;
+        this.description = description;
+        this.karma = karma;
+        this.downvote = downvote;
+        this.state = state;
+        this.meetingId = meetingId;
+        this.studentEmail = studentEmail;
+        this.topicId = topicId;
+    }
+
+    public int getDownvote() {
+        return downvote;
+    }
+
+    public void setDownvote(int downvote) {
+        this.downvote = downvote;
+    }
     @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
     @OneToOne(cascade=CascadeType.PERSIST)
     private Meeting meetingId;
@@ -87,6 +108,7 @@ public class Class implements Serializable {
         this.state=classx.state;
         this.teacherEmail=classx.teacherEmail;
         this.topicId=classx.topicId;
+        this.downvote=classx.downvote;
     }
     public Integer getClassId() {
         return classId;
