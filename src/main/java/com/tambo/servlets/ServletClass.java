@@ -87,9 +87,6 @@ ClassManager cmanager = new ClassManager();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-
-        //FALTA actualizar estudiante
         try {
             PrintWriter out = response.getWriter();
             String jsonQ = request.getParameter("Class");
@@ -113,8 +110,7 @@ ClassManager cmanager = new ClassManager();
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<String> crit = new ArrayList<>();
-        List values = new ArrayList<>();
-//FALTA actualizar profesor     
+        List values = new ArrayList<>();    
         PrintWriter out = response.getWriter();
         try {
 
@@ -139,8 +135,6 @@ ClassManager cmanager = new ClassManager();
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//la eliminacion de registros ira aqui       
-// processRequest(request, response);
     }
 
     /**
