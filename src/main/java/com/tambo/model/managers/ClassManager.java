@@ -3,6 +3,8 @@ package com.tambo.model.managers;
 import com.tambo.facade.IPersistenceFacade;
 import com.tambo.facade.PersistenceFacadeFactory;
 import com.tambo.model.VO.Class;
+import com.tambo.model.VO.Contact;
+import com.tambo.model.VO.ContactPK;
 import com.tambo.model.VO.Topic;
 import com.tambo.model.VO.User;
 import com.tambo.utils.Utils;
@@ -107,6 +109,16 @@ public class ClassManager {
             res = facade.update(classx, "o.classId", classx.getClassId())
                     && facade.update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())
                     && facade.update(classx.getStudentEmail(), "o.email", classx.getStudentEmail().getEmail());
+        }
+        try{
+        if (classx.getState()){
+            Contact ct=new Contact(new ContactPK(classx.getTeacherEmail().getEmail(),classx.getStudentEmail().getEmail()),classx.getTeacherEmail(),classx.getStudentEmail());
+            facade.make(ct);
+            Contact ct1= new Contact(new ContactPK(classx.getStudentEmail().getEmail(),classx.getTeacherEmail().getEmail()),classx.getStudentEmail(),classx.getTeacherEmail());
+        facade.make(ct1);
+        }
+        }catch(Exception e){
+            e.printStackTrace();
         }
         crit.clear();
         values.clear();

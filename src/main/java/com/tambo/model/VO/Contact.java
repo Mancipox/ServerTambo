@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author usuario
  */
 @Entity
-@Table(name = "Contact", catalog = "d6h7fvfjjt8hg3", schema = "public")
+@Table(name = "\"Contact\"", schema = "public")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Contact.findAll", query = "SELECT c FROM Contact c")
@@ -58,6 +58,12 @@ public class Contact implements Serializable {
 
     public Contact(String teacherEmail, String studentEmail) {
         this.contactPK = new ContactPK(teacherEmail, studentEmail);
+    }
+
+    public Contact(ContactPK contactPK, User user, User user1) {
+        this.contactPK = contactPK;
+        this.user = user;
+        this.user1 = user1;
     }
 
     public ContactPK getContactPK() {
@@ -115,6 +121,10 @@ public class Contact implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.tamboserver.exceptions.Contact[ contactPK=" + contactPK + " ]";
+    }
+
+    public void setAll(Contact contact) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

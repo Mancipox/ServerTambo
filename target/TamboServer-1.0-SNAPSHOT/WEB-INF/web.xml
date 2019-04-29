@@ -16,6 +16,10 @@
         <servlet-name>ServletClass</servlet-name>
         <servlet-class>com.tambo.servlets.ServletClass</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletContact</servlet-name>
+        <servlet-class>com.tambo.servlets.ServletContact</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletUser</servlet-name>
         <url-pattern>/ServletUser</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>ServletClass</servlet-name>
         <url-pattern>/ServletClass</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletContact</servlet-name>
+        <url-pattern>/ServletContact</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -5,6 +5,7 @@
  */
 package com.tambo.facade;
 import com.tambo.model.VO.Class;
+import com.tambo.model.VO.Contact;
 import com.tambo.model.VO.Meeting;
 import com.tambo.model.VO.Question;
 import com.tambo.model.VO.Topic;
@@ -47,7 +48,6 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
     public List searchByCriteria(T object, List<String> crit, List values) throws Exception {
         EntityManager em = emf.createEntityManager();
         String perclass = object.getClass().getSimpleName();
-        //System.out.println(perclass);
         String query = "SELECT o FROM " + perclass + " o WHERE ";
         query += crit.get(0) + ":param" + String.valueOf(0);
         //System.out.println(query);
@@ -129,9 +129,17 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
                     }catch(Exception e){
                          query = "SELECT o FROM Topic o WHERE  o.description=\""+((Class) object).getTopicId().getDescription()+"\"";
                          Topic tp=(Topic)em.createQuery(query).getSingleResult();
-                        // System.out.println("tema:  "+tp.getDescription()+"  "+tp.getTopicId());
                         ((Class)object).setTopicId(tp);
-                        //System.out.println("tema almacenado:  "+((Class)object).getTopicId().getTopicId());
+                         this.make(object);
+                        break;
+                    }
+                    case "Contact":
+                    try{
+                    Contact datact = (Contact) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                    datact.setAll((Contact) object);
+                    em.persist(datact);
+                    break;
+                    }catch(Exception e){
                          this.make(object);
                         break;
                     }
@@ -143,23 +151,7 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
             e.printStackTrace();
             return false;
         }
-        /*String query     = "UPDATE " + object.getClass().getSimpleName() + " o SET ";
-    query+=crit.get(0)+":param"+String.valueOf(0);
-    for (int i = 1; i < crit.size()-1; i++) {
-            query+=", "+crit.get(i)+":param"+String.valueOf(i);
-        }
-    query+=" WHERE "+crit.get(crit.size()-1)+":param"+String.valueOf(crit.size()-1);
-        System.out.println(query);
 
-em.getTransaction().begin();
-        Query quer=em.createQuery(query);
-        for (int i = 0; i < crit.size(); i++) {
-            quer.setParameter("param"+String.valueOf(i), values.get(i));
-        }
-        quer.executeUpdate();
-        em.getTransaction().commit();
-        em.close();
-         */
 
     }
 
