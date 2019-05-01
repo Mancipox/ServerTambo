@@ -66,6 +66,28 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
         return data;
 
     }
+    @Override
+       public List searchElementByCriteria(String element,T object, List<String> crit, List values) throws Exception {
+        EntityManager em = emf.createEntityManager();
+        String perclass = object.getClass().getSimpleName();
+        String query = "SELECT o."+element+" FROM " + perclass + " o WHERE ";
+        query += crit.get(0) + ":param" + String.valueOf(0);
+        //System.out.println(query);
+        for (int i = 1; i < crit.size(); i++) {
+            query += " AND " + crit.get(i) + ":param" + String.valueOf(i);
+        }
+        List data = null;
+
+        Query quer = em.createQuery(query);
+        for (int i = 0; i < crit.size(); i++) {
+            quer.setParameter("param" + String.valueOf(i), values.get(i));
+        }
+        data = quer.getResultList();
+        em.close();
+
+        return data;
+
+    }
 
     @Override
     public boolean make(T object) throws Exception {

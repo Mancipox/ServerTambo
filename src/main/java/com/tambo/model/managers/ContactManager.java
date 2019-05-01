@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tambo.model.managers;
+
 
 import com.tambo.facade.IPersistenceFacade;
 import com.tambo.facade.PersistenceFacadeFactory;
@@ -32,11 +28,14 @@ public class ContactManager{
     public String getContacts(String user) throws Exception {
                 crit.add("o.contactPK.studentEmail =");
                 values.add(user);
-                contacts = facade.searchByCriteria(contact, crit, values);
-                jsonQuestions = Utils.toJson(contacts);
+                List<User> users=facade.searchElementByCriteria("user1",contact, crit, values);
+                crit.clear();
+                crit.add("o.contactPK.teacherEmail =");
+                users.addAll(facade.searchElementByCriteria("user",contact, crit, values));
+                jsonQuestions = Utils.toJson(users);
+                System.out.println(jsonQuestions);
         crit.clear();
         values.clear();
-        contacts.clear();
         return jsonQuestions;
 
     }

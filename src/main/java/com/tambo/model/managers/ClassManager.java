@@ -113,9 +113,8 @@ public class ClassManager {
         try{
         if (classx.getState()){
             Contact ct=new Contact(new ContactPK(classx.getTeacherEmail().getEmail(),classx.getStudentEmail().getEmail()),classx.getTeacherEmail(),classx.getStudentEmail());
-            facade.make(ct);
-            Contact ct1= new Contact(new ContactPK(classx.getStudentEmail().getEmail(),classx.getTeacherEmail().getEmail()),classx.getStudentEmail(),classx.getTeacherEmail());
-        facade.make(ct1);
+           String con=(new ContactManager()).getContacts(ct.getContactPK().getStudentEmail());
+            if (!con.contains(ct.getContactPK().getTeacherEmail()))facade.make(ct);
         }
         }catch(Exception e){
             e.printStackTrace();
@@ -125,3 +124,4 @@ public class ClassManager {
         return Utils.toJson(res);
     }
 }
+
