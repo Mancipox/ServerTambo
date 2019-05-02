@@ -19,5 +19,6 @@ public interface IPersistenceFacade<T>{
     public boolean make(T object)throws Exception;
     public boolean update(T object, String crit, Object value)throws Exception;
      public List searchElementByCriteria(String element,T object, List<String> crit, List values) throws Exception;
+     public boolean deleteByCriteria(T object,List<String> crit, List values) throws Exception;
 }
 

@@ -13,6 +13,7 @@ com\tambo\model\VO\Contact.class
 com\tambo\model\VO\Question.class
 com\tambo\model\VO\ContactPK_.class
 com\tambo\utils\TokenUtil.class
+com\tambo\servlets\ServletCT.class
 com\tambo\model\managers\ClassTeacherManager.class
 com\tambo\model\DAO\QuestionDAO.class
 com\tambo\servlets\ServletMeeting.class

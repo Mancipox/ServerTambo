@@ -94,13 +94,21 @@ public class ClassManager {
     public String persistClass(String classx) throws Exception {
         return updateClass(classx);
     }
-
+public String deleteClass(Class clasx) throws Exception{
+    crit.add("o.classId=");
+    values.add(clasx.getClassId());
+    Boolean res=facade.deleteByCriteria(clasx, crit, values);
+    jsonClasss = Utils.toJson(res);
+        crit.clear();
+        values.clear();
+        return jsonClasss;
+}
     public String updateClass(String jsonClass) throws Exception {
         boolean res;
         classx = (Class) Utils.fromJson(jsonClass, Class.class);
 
         if (classx.getTeacherEmail() != null) {
-
+(new ClassTeacherManager()).deleteCT(classx.getClassId().toString());
             res = facade.update(classx, "o.classId", classx.getClassId())
                     && facade.update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())
                     && facade.update(classx.getStudentEmail(), "o.email", classx.getStudentEmail().getEmail())
@@ -115,6 +123,10 @@ public class ClassManager {
             Contact ct=new Contact(new ContactPK(classx.getTeacherEmail().getEmail(),classx.getStudentEmail().getEmail()),classx.getTeacherEmail(),classx.getStudentEmail());
            String con=(new ContactManager()).getContacts(ct.getContactPK().getStudentEmail());
             if (!con.contains(ct.getContactPK().getTeacherEmail()))facade.make(ct);
+        }
+        if(classx.getDownvote()>=20){
+            (new ClassTeacherManager()).deleteCT(classx.getClassId().toString());
+            this.deleteClass(classx);
         }
         }catch(Exception e){
             e.printStackTrace();

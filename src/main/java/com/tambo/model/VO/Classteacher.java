@@ -7,6 +7,7 @@ package com.tambo.model.VO;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author usuario
  */
 @Entity
-@Table(name = "\"Class_teacher\"", catalog = "d6h7fvfjjt8hg3", schema = "public")
+@Table(name = "\"Class_teacher\"", schema = "public")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Classteacher.findAll", query = "SELECT c FROM Classteacher c")
@@ -38,7 +39,8 @@ public class Classteacher implements Serializable {
     @Column(name = "ct_id")
     private Integer ctId;
     @JoinColumn(name = "class_id", referencedColumnName = "class_id")
-    @ManyToOne
+    @ManyToOne(
+    cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Class classId;
     @JoinColumn(name = "teacher_email", referencedColumnName = "email")
     @ManyToOne
@@ -103,6 +105,10 @@ public class Classteacher implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.tamboserver.exceptions.Classteacher[ ctId=" + ctId + " ]";
+    }
+
+    public void setAll(Contact contact) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

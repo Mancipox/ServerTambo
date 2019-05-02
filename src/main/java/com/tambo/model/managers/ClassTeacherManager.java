@@ -19,7 +19,7 @@ import java.util.List;
  * @author usuario
  */
 public class ClassTeacherManager {
-     String jsonQuestions;
+     String jsonCT;
     List<String> crit = new ArrayList<>();
     List values = new ArrayList<>();
     List<Classteacher> classteachers;
@@ -29,23 +29,28 @@ public class ClassTeacherManager {
     public ClassTeacherManager() {
         facade = new PersistenceFacadeFactory().getNewFacade();
     }
-/*
+
     public String getTeachers(String classx) throws Exception {
-                crit.add("o.contactPK.studentEmail =");
-                values.add(classx);
-                List<User> users=facade.searchElementByCriteria("user1",classteacher, crit, values);
-                jsonQuestions = Utils.toJson(users);
-                System.out.println(jsonQuestions);
+        try{        
+        crit.add("o.classId.classId =");
+                values.add(Integer.valueOf(classx));
+                List<User> users=facade.searchElementByCriteria("teacherEmail",classteacher, crit, values);
+                jsonCT = Utils.toJson(users);
+                System.out.println(jsonCT);
         crit.clear();
         values.clear();
-        return jsonQuestions;
-
+        }
+        catch(Exception e){
+                 crit.clear();
+        values.clear();
+                }
+        return jsonCT;
     }
 
     public String getCT() throws Exception {
         classteachers = facade.search(new Classteacher());
-        jsonQuestions = Utils.toJson(classteachers);
-        return jsonQuestions;
+        jsonCT = Utils.toJson(classteachers);
+        return jsonCT;
     }
 
     public String persistCT(String contact) throws Exception {
@@ -55,10 +60,19 @@ public class ClassTeacherManager {
     public String updateCT(String jsonclasst) throws Exception {
         boolean res;
         classteacher = (Classteacher) Utils.fromJson(jsonclasst, Classteacher.class);
-             res= facade.update(classteacher, "o.contactPK", classteacher.getContactPK());
+             res= facade.update(classteacher, "o.ctId", classteacher.getCtId());
         crit.clear();
         values.clear();
         return Utils.toJson(res);
-    }*/
+    }
+    public String deleteCT(String param) throws Exception{
+            crit.add("o.classId.classId=");
+    values.add(Integer.valueOf(param));
+    Boolean res=facade.deleteByCriteria(classteacher, crit, values);
+    jsonCT = Utils.toJson(res);
+        crit.clear();
+        values.clear();
+        return jsonCT;
+    }
 }
 

@@ -5,6 +5,7 @@
  */
 package com.tambo.facade;
 import com.tambo.model.VO.Class;
+import com.tambo.model.VO.Classteacher;
 import com.tambo.model.VO.Contact;
 import com.tambo.model.VO.Meeting;
 import com.tambo.model.VO.Question;
@@ -165,6 +166,19 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
                          this.make(object);
                         break;
                     }
+                      case "Classteacher":
+                    try{
+                    Classteacher dataclat = (Classteacher) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                    dataclat.setAll((Contact) object);
+                    em.persist(dataclat);
+                    break;
+                    }catch(Exception e){
+                         this.make(object);
+                        break;
+                    }
+                      default:
+                          this.make(object);
+                          break;
             }
             em.getTransaction().commit();
             em.close();
@@ -174,6 +188,35 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
             return false;
         }
 
+
+    }
+
+
+    @Override
+    public boolean deleteByCriteria(T object, List<String> crit, List values) throws Exception {
+        EntityManager em = emf.createEntityManager();
+        String perclass = object.getClass().getSimpleName();
+        String query = "DELETE FROM " + perclass + " o WHERE ";
+        query += crit.get(0) + ":param" + String.valueOf(0);
+        //System.out.println(query);
+        for (int i = 1; i < crit.size(); i++) {
+            query += " AND " + crit.get(i) + ":param" + String.valueOf(i);
+        }
+em.getTransaction().begin();
+        Query quer = em.createQuery(query);
+                
+        for (int i = 0; i < crit.size(); i++) {
+            quer.setParameter("param" + String.valueOf(i), values.get(i));
+        }
+        try{
+        quer.executeUpdate();
+        em.close();
+        return true;}
+        catch(Exception e){
+            e.printStackTrace();
+             em.close();
+            return false;
+        }
 
     }
 
