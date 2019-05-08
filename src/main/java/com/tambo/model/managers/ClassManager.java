@@ -1,5 +1,7 @@
 package com.tambo.model.managers;
 
+import awsSES.GmailPostman;
+import awsSES.PostMan;
 import com.tambo.facade.IPersistenceFacade;
 import com.tambo.facade.PersistenceFacadeFactory;
 import com.tambo.model.VO.Class;
@@ -113,6 +115,11 @@ public String deleteClass(Class clasx) throws Exception{
                     && facade.update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())
                     && facade.update(classx.getStudentEmail(), "o.email", classx.getStudentEmail().getEmail())
                     && facade.update(classx.getTeacherEmail(), "o.email", classx.getTeacherEmail().getEmail());
+            if(!classx.getState()){ 
+                String body="Hola "+classx.getStudentEmail().getUserName()+"!\nTe informamos que "+classx.getTeacherEmail().getFirstName()+" ("+classx.getTeacherEmail().getUserName()+") ha aceptado tu clase de: \""+
+                        classx.getDescription()+"\" la cual se llevara a cabo en "+classx.getMeetingId().getPlace()+"\n\nAtentamente.\nEquipo TAMBO";
+                PostMan postman= new GmailPostman().withTo(classx.getStudentEmail().getEmail()).withSubject("Un profesor ha aceptado tu clase!").withBody(body).withFrom("tamboapplication@gmail.com");
+        postman.send();}
         } else {
             res = facade.update(classx, "o.classId", classx.getClassId())
                     && facade.update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())

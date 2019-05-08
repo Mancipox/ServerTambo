@@ -24,12 +24,14 @@ com\mycompany\tamboserver\exceptions\NonexistentEntityException.class
 com\tambo\model\DAO\IQuestionDAO.class
 com\tambo\model\VO\Contact_.class
 com\mycompany\tamboserver\exceptions\IllegalOrphanException.class
+awsSES\GmailPostman.class
 com\tambo\model\VO\Classteacher_.class
 com\tambo\utils\Utils$TestExclStrat.class
 com\tambo\facade\PersistenceFacadeFactory.class
 com\tambo\model\VO\Topic.class
 com\tambo\model\managers\UserManager.class
 com\tambo\servlets\ServletContact.class
+awsSES\PostMan.class
 com\tambo\model\VO\User_.class
 com\tambo\model\VO\Classteacher.class
 com\tambo\utils\Utils.class

@@ -1,4 +1,5 @@
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\VO\Contact.java
+C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\awsSES\GmailPostman.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\DAO\UserDAO.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\servlets\ServletContact.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\facade\IPersistenceFacade.java
@@ -15,6 +16,7 @@ C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\jav
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\VO\Meeting.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\managers\ContactManager.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\managers\QuestionManager.java
+C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\awsSES\PostMan.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\mycompany\tamboserver\exceptions\IllegalOrphanException.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\VO\User.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\facade\PersistenceFacade.java

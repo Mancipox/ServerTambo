@@ -5,6 +5,8 @@
  */
 package com.tambo.servlets;
 
+import awsSES.GmailPostman;
+import awsSES.PostMan;
 import com.tambo.model.managers.ClassManager;
 import com.tambo.model.managers.QuestionManager;
 import com.tambo.utils.TokenUtil;
@@ -42,6 +44,8 @@ ClassManager cmanager = new ClassManager();
         response.setContentType("text/html;charset=UTF-8");
         
     }
+    
+  
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -55,6 +59,9 @@ ClassManager cmanager = new ClassManager();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        
+        /*
         try {            
             PrintWriter out = response.getWriter();
             //String token = request.getParameter("authorization");
@@ -71,6 +78,7 @@ ClassManager cmanager = new ClassManager();
         } catch (Exception ex) {
             Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
 
     /**
