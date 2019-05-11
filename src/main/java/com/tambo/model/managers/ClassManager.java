@@ -3,6 +3,7 @@ package com.tambo.model.managers;
 import awsSES.GmailPostman;
 import awsSES.PostMan;
 import com.tambo.facade.IPersistenceFacade;
+import com.tambo.facade.PersistenceFacade;
 import com.tambo.facade.PersistenceFacadeFactory;
 import com.tambo.model.VO.Class;
 import com.tambo.model.VO.Contact;
@@ -24,11 +25,24 @@ public class ClassManager {
     List values = new ArrayList<>();
     List<Class> classxs;
     Class classx = new Class();
-    IPersistenceFacade facade;
 
-    public ClassManager() {
-        facade = new PersistenceFacadeFactory().getNewFacade();
+ private static ClassManager cmngr;
+    private ClassManager() {
+       
     }
+    
+    private synchronized static void createInstance() {
+        if (cmngr == null) { 
+            cmngr = new ClassManager();
+        }
+    }
+ 
+    public static ClassManager getInstance() {
+        createInstance();
+
+        return cmngr;
+    }
+
 
     public String getClasss(String option, String user) throws Exception {
         User usertemp = null;
@@ -40,25 +54,25 @@ public class ClassManager {
             case "askedBy":
                 crit.add("o.studentEmail =");
                 values.add(usertemp);
-                classxs = facade.searchByCriteria(classx, crit, values);
+                classxs = PersistenceFacade.getInstance().searchByCriteria(classx, crit, values);
                 jsonClasss = Utils.toJson(classxs);
                 break;
             case "answeredBy":
                 crit.add("o.teacherEmail =");
                 values.add(usertemp);
-                classxs = facade.searchByCriteria(classx, crit, values);
+                classxs = PersistenceFacade.getInstance().searchByCriteria(classx, crit, values);
                 jsonClasss = Utils.toJson(classxs);
                 break;
             case "except":
                 crit.add("(o.teacherEmail =:param0 OR o.teacherEmail=null) AND o.studentEmail != ");
                 values.add(usertemp);
-                classxs = facade.searchByCriteria(classx, crit, values);
+                classxs = PersistenceFacade.getInstance().searchByCriteria(classx, crit, values);
                 jsonClasss = Utils.toJson(classxs);
                 break;
             case "calendar":
                 crit.add("o.teacherEmail =:param0 OR o.studentEmail = ");
                 values.add(usertemp);
-                classxs = facade.searchByCriteria(classx, crit, values);
+                classxs = PersistenceFacade.getInstance().searchByCriteria(classx, crit, values);
                 jsonClasss = Utils.toJson(classxs);
                 break;
             default:
@@ -79,7 +93,7 @@ public class ClassManager {
         crit.add("o.topicId.description =");
         values.add(usertemp);
         values.add(topic);
-        classxs = facade.searchByCriteria(classx, crit, values);
+        classxs = PersistenceFacade.getInstance().searchByCriteria(classx, crit, values);
         jsonClasss = Utils.toJson(classxs);
         crit.clear();
         values.clear();
@@ -88,7 +102,7 @@ public class ClassManager {
     }
 
     public String getClasss() throws Exception {
-        classxs = facade.search(new Class());
+        classxs = PersistenceFacade.getInstance().search(new Class());
         jsonClasss = Utils.toJson(classxs);
         return jsonClasss;
     }
@@ -99,7 +113,7 @@ public class ClassManager {
 public String deleteClass(Class clasx) throws Exception{
     crit.add("o.classId=");
     values.add(clasx.getClassId());
-    Boolean res=facade.deleteByCriteria(clasx, crit, values);
+    Boolean res=PersistenceFacade.getInstance().deleteByCriteria(clasx, crit, values);
     jsonClasss = Utils.toJson(res);
         crit.clear();
         values.clear();
@@ -110,29 +124,29 @@ public String deleteClass(Class clasx) throws Exception{
         classx = (Class) Utils.fromJson(jsonClass, Class.class);
 
         if (classx.getTeacherEmail() != null) {
-(new ClassTeacherManager()).deleteCT(classx.getClassId().toString());
-            res = facade.update(classx, "o.classId", classx.getClassId())
-                    && facade.update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())
-                    && facade.update(classx.getStudentEmail(), "o.email", classx.getStudentEmail().getEmail())
-                    && facade.update(classx.getTeacherEmail(), "o.email", classx.getTeacherEmail().getEmail());
+ClassTeacherManager.getInstance().deleteCT(classx.getClassId().toString());
+            res = PersistenceFacade.getInstance().update(classx, "o.classId", classx.getClassId())
+                    && PersistenceFacade.getInstance().update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())
+                    && PersistenceFacade.getInstance().update(classx.getStudentEmail(), "o.email", classx.getStudentEmail().getEmail())
+                    && PersistenceFacade.getInstance().update(classx.getTeacherEmail(), "o.email", classx.getTeacherEmail().getEmail());
             if(!classx.getState()){ 
                 String body="Hola "+classx.getStudentEmail().getUserName()+"!\nTe informamos que "+classx.getTeacherEmail().getFirstName()+" ("+classx.getTeacherEmail().getUserName()+") ha aceptado tu clase de: \""+
                         classx.getDescription()+"\" la cual se llevara a cabo en "+classx.getMeetingId().getPlace()+"\n\nAtentamente.\nEquipo TAMBO";
                 PostMan postman= new GmailPostman().withTo(classx.getStudentEmail().getEmail()).withSubject("Un profesor ha aceptado tu clase!").withBody(body).withFrom("tamboapplication@gmail.com");
         postman.send();}
         } else {
-            res = facade.update(classx, "o.classId", classx.getClassId())
-                    && facade.update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())
-                    && facade.update(classx.getStudentEmail(), "o.email", classx.getStudentEmail().getEmail());
+            res = PersistenceFacade.getInstance().update(classx, "o.classId", classx.getClassId())
+                    && PersistenceFacade.getInstance().update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())
+                    && PersistenceFacade.getInstance().update(classx.getStudentEmail(), "o.email", classx.getStudentEmail().getEmail());
         }
         try{
         if (classx.getState()){
             Contact ct=new Contact(new ContactPK(classx.getTeacherEmail().getEmail(),classx.getStudentEmail().getEmail()),classx.getTeacherEmail(),classx.getStudentEmail());
-           String con=(new ContactManager()).getContacts(ct.getContactPK().getStudentEmail());
-            if (!con.contains(ct.getContactPK().getTeacherEmail()))facade.make(ct);
+           String con=ContactManager.getInstance().getContacts(ct.getContactPK().getStudentEmail());
+            if (!con.contains(ct.getContactPK().getTeacherEmail()))PersistenceFacade.getInstance().make(ct);
         }
         if(classx.getDownvote()>=20){
-            (new ClassTeacherManager()).deleteCT(classx.getClassId().toString());
+            ClassTeacherManager.getInstance().deleteCT(classx.getClassId().toString());
             this.deleteClass(classx);
         }
         }catch(Exception e){

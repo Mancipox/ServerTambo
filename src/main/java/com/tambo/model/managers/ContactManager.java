@@ -20,10 +20,23 @@ public class ContactManager{
     List<Contact> contacts;
     Contact contact= new Contact();
     IPersistenceFacade facade;
-
-    public ContactManager() {
-        facade = new PersistenceFacadeFactory().getNewFacade();
+ private static ContactManager cntacmngr;
+    private ContactManager() {
+        facade = PersistenceFacadeFactory.getNewFacade();
     }
+    
+    private synchronized static void createInstance() {
+        if (cntacmngr == null) { 
+            cntacmngr = new ContactManager();
+        }
+    }
+ 
+    public static ContactManager getInstance() {
+        createInstance();
+
+        return cntacmngr;
+    }
+
 
     public String getContacts(String user) throws Exception {
                 crit.add("o.contactPK.studentEmail =");

@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletUser extends HttpServlet {
 
-    UserManager umanager = new UserManager();
+    UserManager umanager = UserManager.getInstance();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

@@ -7,7 +7,6 @@ C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\jav
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\utils\TokenUtil.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\servlets\ServletClass.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\managers\ClassManager.java
-C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\servlets\ServletMeeting.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\facade\PersistenceFacadeFactory.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\DAO\IUserDAO.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\mycompany\tamboserver\exceptions\NonexistentEntityException.java
@@ -15,7 +14,6 @@ C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\jav
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\DAO\IMeetingDAO.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\VO\Meeting.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\managers\ContactManager.java
-C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\managers\QuestionManager.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\awsSES\PostMan.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\mycompany\tamboserver\exceptions\IllegalOrphanException.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\VO\User.java
@@ -24,12 +22,10 @@ C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\jav
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\DAO\QuestionDAO.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\VO\Classteacher.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\DAO\MeetingDAO.java
-C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\managers\MeetingManager.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\utils\Utils.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\VO\ContactPK.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\servlets\ServletCT.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\servlets\ServletUser.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\managers\ClassTeacherManager.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\VO\Question.java
-C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\servlets\ServletQuestion.java
 C:\Users\usuario\Documents\NetBeansProjects\ServerTambo\ServerTambo\src\main\java\com\tambo\model\managers\UserManager.java

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author usuario
  */
 public class ServletCT extends HttpServlet {
-ClassTeacherManager ctmanager= new ClassTeacherManager();
+ClassTeacherManager ctmanager= ClassTeacherManager.getInstance();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -75,7 +75,7 @@ ClassTeacherManager ctmanager= new ClassTeacherManager();
                 out.print(ctmanager.getTeachers(classt));
             }
         } catch (Exception ex) {
-            Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletCT.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -100,7 +100,7 @@ ClassTeacherManager ctmanager= new ClassTeacherManager();
             out.print(ctmanager.persistCT(classteacher));
 
         } catch (Exception ex) {
-            Logger.getLogger(ServletMeeting.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletCT.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -3,12 +3,10 @@ com\tambo\model\managers\ClassManager.class
 com\tambo\facade\IPersistenceFacade.class
 com\tambo\model\DAO\MeetingDAO.class
 com\tambo\model\VO\Meeting.class
-com\tambo\model\managers\QuestionManager.class
 com\tambo\model\VO\ContactPK.class
 com\tambo\model\VO\Meeting_.class
 com\tambo\model\DAO\IMeetingDAO.class
 com\tambo\model\VO\Question_.class
-com\tambo\servlets\ServletQuestion.class
 com\tambo\model\VO\Contact.class
 com\tambo\model\VO\Question.class
 com\tambo\model\VO\ContactPK_.class
@@ -16,7 +14,6 @@ com\tambo\utils\TokenUtil.class
 com\tambo\servlets\ServletCT.class
 com\tambo\model\managers\ClassTeacherManager.class
 com\tambo\model\DAO\QuestionDAO.class
-com\tambo\servlets\ServletMeeting.class
 com\tambo\facade\PersistenceFacade.class
 com\tambo\servlets\ServletClass.class
 com\tambo\model\VO\Topic_.class
@@ -38,7 +35,6 @@ com\tambo\utils\Utils.class
 com\tambo\model\DAO\UserDAO.class
 com\tambo\model\VO\User.class
 com\tambo\model\managers\ContactManager.class
-com\tambo\model\managers\MeetingManager.class
 com\tambo\model\VO\Class.class
 com\tambo\model\DAO\IUserDAO.class
 com\tambo\servlets\ServletUser.class

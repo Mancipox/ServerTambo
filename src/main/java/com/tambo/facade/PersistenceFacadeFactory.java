@@ -9,8 +9,8 @@ package com.tambo.facade;
  *
  * @author usuario
  */
-public class PersistenceFacadeFactory {
-    public IPersistenceFacade getNewFacade(){
-        return new PersistenceFacade();
+public  class PersistenceFacadeFactory {
+    public static IPersistenceFacade getNewFacade(){
+        return PersistenceFacade.getInstance();
     }
 }

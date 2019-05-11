@@ -24,20 +24,32 @@ import javax.persistence.Query;
  */
 public class PersistenceFacade<T> implements IPersistenceFacade<T> {
 
-    EntityManagerFactory emf;
-
-    public PersistenceFacade() {
+    private static EntityManagerFactory emf;
+    private static PersistenceFacade perfac;
+private static EntityManager em;
+    private PersistenceFacade() {
+        System.out.println("HOLAAAAAAAAA");
         this.emf = Persistence.createEntityManagerFactory("TAMBO");
+        em=emf.createEntityManager();
+    }
+     private synchronized static void createInstance() {
+        if (perfac == null) { 
+            
+            perfac = new PersistenceFacade();
+        }
+    }
+ 
+    public static PersistenceFacade getInstance() {
+        createInstance();
+        return perfac;
     }
 
     @Override
     public List search(T object) throws Exception {
-        EntityManager em = emf.createEntityManager();
         String query = "SELECT o FROM " + object.getClass().getSimpleName() + " o ";
         List data = null;
         try {
             data = em.createQuery(query).getResultList();
-            em.close();
             return data;
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,7 +59,6 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
 
     @Override
     public List searchByCriteria(T object, List<String> crit, List values) throws Exception {
-        EntityManager em = emf.createEntityManager();
         String perclass = object.getClass().getSimpleName();
         String query = "SELECT o FROM " + perclass + " o WHERE ";
         query += crit.get(0) + ":param" + String.valueOf(0);
@@ -62,7 +73,6 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
             quer.setParameter("param" + String.valueOf(i), values.get(i));
         }
         data = quer.getResultList();
-        em.close();
 
         return data;
 
@@ -84,7 +94,6 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
             quer.setParameter("param" + String.valueOf(i), values.get(i));
         }
         data = quer.getResultList();
-        em.close();
 
         return data;
 
@@ -97,7 +106,6 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
             em.getTransaction().begin();
             em.persist(object);
             em.getTransaction().commit();
-            em.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,7 +189,6 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
                           break;
             }
             em.getTransaction().commit();
-            em.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,11 +217,9 @@ em.getTransaction().begin();
         }
         try{
         quer.executeUpdate();
-        em.close();
         return true;}
         catch(Exception e){
             e.printStackTrace();
-             em.close();
             return false;
         }
 

@@ -6,7 +6,6 @@
 package com.tambo.servlets;
 
 import com.tambo.model.managers.ClassManager;
-import com.tambo.model.managers.QuestionManager;
 import com.tambo.utils.TokenUtil;
 import io.jsonwebtoken.Claims;
 import java.io.IOException;
@@ -26,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletClass extends HttpServlet {
     
-ClassManager cmanager = new ClassManager();
+ClassManager cmanager = ClassManager.getInstance();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -60,6 +59,7 @@ ClassManager cmanager = new ClassManager();
             //System.out.println(token+" esto llega de Cliente");
             //Claims claims  = TokenUtil.decodeJWT(token);//throws exception if token is tampered, or secret key doesn't match
             //System.out.println(claims.getSubject());
+            
             String opt = request.getParameter("option");
             if (opt.equals("all")) {
                 out.print(cmanager.getClasss());
@@ -72,7 +72,7 @@ ClassManager cmanager = new ClassManager();
                 out.print(cmanager.getClasss(opt, usertemp));
             }
         } catch (Exception ex) {
-            Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletClass.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,13 +87,14 @@ ClassManager cmanager = new ClassManager();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println(request.getParameter("Class"));
         try {
             PrintWriter out = response.getWriter();
             String jsonQ = request.getParameter("Class");
             out.print(cmanager.persistClass(jsonQ));
 
         } catch (Exception ex) {
-            Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletClass.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -120,7 +121,7 @@ ClassManager cmanager = new ClassManager();
             out.print(cmanager.updateClass(jsonQ));
 
         } catch (Exception ex) {
-            Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletClass.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

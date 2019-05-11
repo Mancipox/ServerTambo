@@ -6,8 +6,8 @@
  */
 package com.tambo.model.managers;
 
-import com.tambo.facade.IPersistenceFacade;
-import com.tambo.facade.PersistenceFacadeFactory;
+
+import com.tambo.facade.PersistenceFacade;
 import com.tambo.model.VO.Classteacher;
 import com.tambo.model.VO.User;
 import com.tambo.utils.Utils;
@@ -24,17 +24,27 @@ public class ClassTeacherManager {
     List values = new ArrayList<>();
     List<Classteacher> classteachers;
     Classteacher classteacher= new Classteacher();
-    IPersistenceFacade facade;
+ private static ClassTeacherManager ctmngr;
+    private ClassTeacherManager() {
+    }
+    
+    private synchronized static void createInstance() {
+        if (ctmngr == null) { 
+            ctmngr = new ClassTeacherManager();
+        }
+    }
+ 
+    public static ClassTeacherManager getInstance() {
+        createInstance();
 
-    public ClassTeacherManager() {
-        facade = new PersistenceFacadeFactory().getNewFacade();
+        return ctmngr;
     }
 
     public String getTeachers(String classx) throws Exception {
         try{        
         crit.add("o.classId.classId =");
                 values.add(Integer.valueOf(classx));
-                List<User> users=facade.searchElementByCriteria("teacherEmail",classteacher, crit, values);
+                List<User> users=PersistenceFacade.getInstance().searchElementByCriteria("teacherEmail",classteacher, crit, values);
                 jsonCT = Utils.toJson(users);
                 System.out.println(jsonCT);
         crit.clear();
@@ -48,7 +58,7 @@ public class ClassTeacherManager {
     }
 
     public String getCT() throws Exception {
-        classteachers = facade.search(new Classteacher());
+        classteachers = PersistenceFacade.getInstance().search(new Classteacher());
         jsonCT = Utils.toJson(classteachers);
         return jsonCT;
     }
@@ -60,15 +70,15 @@ public class ClassTeacherManager {
     public String updateCT(String jsonclasst) throws Exception {
         boolean res;
         classteacher = (Classteacher) Utils.fromJson(jsonclasst, Classteacher.class);
-             res= facade.update(classteacher, "o.ctId", classteacher.getCtId());
+             res= PersistenceFacade.getInstance().update(classteacher, "o.ctId", classteacher.getCtId());
         crit.clear();
         values.clear();
         return Utils.toJson(res);
     }
     public String deleteCT(String param) throws Exception{
-            crit.add("o.classId.classId=");
+    crit.add("o.classId.classId=");
     values.add(Integer.valueOf(param));
-    Boolean res=facade.deleteByCriteria(classteacher, crit, values);
+    Boolean res=PersistenceFacade.getInstance().deleteByCriteria(classteacher, crit, values);
     jsonCT = Utils.toJson(res);
         crit.clear();
         values.clear();

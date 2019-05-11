@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author usuario
  */
 public class ServletContact extends HttpServlet {
-  ContactManager ctmanager = new ContactManager();
+  ContactManager ctmanager = ContactManager.getInstance();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -73,7 +73,7 @@ public class ServletContact extends HttpServlet {
                 out.print(ctmanager.getContacts(usertemp));
             }
         } catch (Exception ex) {
-            Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletContact.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -94,7 +94,7 @@ public class ServletContact extends HttpServlet {
             out.print(ctmanager.persistContact(jsonQ));
 
         } catch (Exception ex) {
-            Logger.getLogger(ServletQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletContact.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

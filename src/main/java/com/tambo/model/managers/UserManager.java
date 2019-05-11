@@ -25,10 +25,27 @@ public class UserManager {
     List<User> users;
     IPersistenceFacade facade;
     String jsonObj;
-
-    public UserManager() {
-        facade = new PersistenceFacadeFactory().getNewFacade();
+ private static UserManager usmngr;
+    private UserManager() {
+        facade = PersistenceFacadeFactory.getNewFacade();
     }
+    
+    private synchronized static void createInstance() {
+        if (usmngr == null) { 
+            usmngr = new UserManager();
+        }
+    }
+ 
+    public static UserManager getInstance() {
+        createInstance();
+
+        return usmngr;
+    }
+
+    
+    
+    
+    
 
     public String getUsers() throws Exception {
         users = facade.search(user);
