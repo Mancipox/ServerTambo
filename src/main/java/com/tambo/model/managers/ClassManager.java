@@ -124,7 +124,6 @@ public String deleteClass(Class clasx) throws Exception{
         classx = (Class) Utils.fromJson(jsonClass, Class.class);
 
         if (classx.getTeacherEmail() != null) {
-ClassTeacherManager.getInstance().deleteCT(classx.getClassId().toString());
             res = PersistenceFacade.getInstance().update(classx, "o.classId", classx.getClassId())
                     && PersistenceFacade.getInstance().update(classx.getMeetingId(), "o.meetingId", classx.getMeetingId().getMeetingId())
                     && PersistenceFacade.getInstance().update(classx.getStudentEmail(), "o.email", classx.getStudentEmail().getEmail())

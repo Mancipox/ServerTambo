@@ -17,7 +17,7 @@
         <property name="databaseName" value="d6h7fvfjjt8hg3"/>
         <property name="User" value="zkqsgnwvqnwekw"/>
         <property name="Password" value="361cc0030462423aacec4449ac0f39eae48862a5817eff066c8c649038ead352"/>
-        <!-- <property name="URL" value="jdbc:postgresql://ec2-107-22-162-8.compute-1.amazonaws.com:5432/d6h7fvfjjt8hg3?sslmode=require"/>-->
+        <!--<property name="URL" value="jdbc:postgresql://ec2-107-22-162-8.compute-1.amazonaws.com:5432/d6h7fvfjjt8hg3?sslmode=require"/>-->
         <property name="URL" value="jdbc:postgresql://ec2-107-22-162-8.compute-1.amazonaws.com:5432/d6h7fvfjjt8hg3?sslfactory=org.postgresql.ssl.NonValidatingFactory"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>

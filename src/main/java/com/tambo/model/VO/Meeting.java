@@ -60,7 +60,21 @@ public class Meeting implements Serializable {
     private Double yPos;
     @Column(name = "x_pos")
     private Double xPos;
+     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "description")
+    private String description;
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+     
     public Double getyPos() {
         return yPos;
     }
@@ -77,12 +91,16 @@ public class Meeting implements Serializable {
         this.xPos = xPos;
     }
 
-    public Meeting(Date meetingDate, String place, Double yPos, Double xPos) {
+    public Meeting(Integer meetingId, Date meetingDate, String place, Double yPos, Double xPos, String description) {
+        this.meetingId = meetingId;
         this.meetingDate = meetingDate;
         this.place = place;
         this.yPos = yPos;
         this.xPos = xPos;
+        this.description = description;
     }
+
+ 
 
     public Meeting() {
     }

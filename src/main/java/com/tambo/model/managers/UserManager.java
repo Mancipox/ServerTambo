@@ -71,6 +71,7 @@ public class UserManager {
     }
 
     public String isUser(String jsonU) throws Exception {
+        try{
         user = (User) Utils.fromJson(jsonU, User.class);
         crit.add("o.email=");
         crit.add("o.password=");
@@ -84,6 +85,12 @@ public class UserManager {
         } else {
             crit.clear();
             values.clear();
+            return Utils.toJson(null);
+        }
+        }catch(Exception e){
+            crit.clear();
+            values.clear();
+            e.printStackTrace();
             return Utils.toJson(null);
         }
     }

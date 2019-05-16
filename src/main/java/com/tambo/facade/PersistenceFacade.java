@@ -50,8 +50,10 @@ private static EntityManager em;
         List data = null;
         try {
             data = em.createQuery(query).getResultList();
+            em.clear();
             return data;
         } catch (Exception e) {
+            em.clear();
             e.printStackTrace();
             return null;
         }
@@ -73,7 +75,7 @@ private static EntityManager em;
             quer.setParameter("param" + String.valueOf(i), values.get(i));
         }
         data = quer.getResultList();
-
+em.clear();
         return data;
 
     }
@@ -94,7 +96,7 @@ private static EntityManager em;
             quer.setParameter("param" + String.valueOf(i), values.get(i));
         }
         data = quer.getResultList();
-
+em.close();
         return data;
 
     }
@@ -106,9 +108,11 @@ private static EntityManager em;
             em.getTransaction().begin();
             em.persist(object);
             em.getTransaction().commit();
+            em.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            em.close();
             return false;
         }
     }
@@ -189,9 +193,11 @@ private static EntityManager em;
                           break;
             }
             em.getTransaction().commit();
+           em.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+           em.close();
             return false;
         }
 
@@ -217,9 +223,11 @@ em.getTransaction().begin();
         }
         try{
         quer.executeUpdate();
+        em.close();
         return true;}
         catch(Exception e){
             e.printStackTrace();
+           em.close();
             return false;
         }
 
