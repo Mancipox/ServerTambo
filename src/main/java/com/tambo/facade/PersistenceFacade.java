@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.tambo.facade;
+
 import com.tambo.model.VO.Class;
 import com.tambo.model.VO.Classteacher;
 import com.tambo.model.VO.Contact;
@@ -26,19 +27,21 @@ public class PersistenceFacade<T> implements IPersistenceFacade<T> {
 
     private static EntityManagerFactory emf;
     private static PersistenceFacade perfac;
-private static EntityManager em;
+    private static EntityManager em;
+
     private PersistenceFacade() {
-        System.out.println("HOLAAAAAAAAA");
+
         this.emf = Persistence.createEntityManagerFactory("TAMBO");
-        em=emf.createEntityManager();
+        em = emf.createEntityManager();
     }
-     private synchronized static void createInstance() {
-        if (perfac == null) { 
-            
+
+    private synchronized static void createInstance() {
+        if (perfac == null) {
+
             perfac = new PersistenceFacade();
         }
     }
- 
+
     public static PersistenceFacade getInstance() {
         createInstance();
         return perfac;
@@ -50,9 +53,11 @@ private static EntityManager em;
         List data = null;
         try {
             data = em.createQuery(query).getResultList();
+            em.flush();
             return data;
         } catch (Exception e) {
             e.printStackTrace();
+            em.flush();
             return null;
         }
     }
@@ -74,14 +79,17 @@ private static EntityManager em;
         }
         data = quer.getResultList();
 
+        em.flush();
+
         return data;
 
     }
+
     @Override
-       public List searchElementByCriteria(String element,T object, List<String> crit, List values) throws Exception {
-        EntityManager em = emf.createEntityManager();
+    public List searchElementByCriteria(String element, T object, List<String> crit, List values) throws Exception {
+        
         String perclass = object.getClass().getSimpleName();
-        String query = "SELECT o."+element+" FROM " + perclass + " o WHERE ";
+        String query = "SELECT o." + element + " FROM " + perclass + " o WHERE ";
         query += crit.get(0) + ":param" + String.valueOf(0);
         //System.out.println(query);
         for (int i = 1; i < crit.size(); i++) {
@@ -94,114 +102,114 @@ private static EntityManager em;
             quer.setParameter("param" + String.valueOf(i), values.get(i));
         }
         data = quer.getResultList();
-
+        em.flush();
         return data;
 
     }
 
     @Override
     public boolean make(T object) throws Exception {
-        EntityManager em = emf.createEntityManager();
+        
         try {
             em.getTransaction().begin();
             em.persist(object);
             em.getTransaction().commit();
+            em.flush();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            em.flush();
             return false;
         }
     }
 
     @Override
     public boolean update(T object, String crit, Object value) throws Exception {
-        EntityManager em = emf.createEntityManager();
         String query = "SELECT o FROM " + object.getClass().getSimpleName() + " o WHERE " + crit + "=:param0";
         try {
             em.getTransaction().begin();
             String dataclass = object.getClass().getSimpleName();
             switch (dataclass) {
                 case "Question":
-                    try{
-                    Question dataq = (Question) em.createQuery(query).setParameter("param0", value).getSingleResult();
-                    dataq.setAll((Question) object);
-                    em.persist(dataq);
-                    break;
-                    }catch(Exception e){
+                    try {
+                        Question dataq = (Question) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                        dataq.setAll((Question) object);
+                        em.persist(dataq);
+                        break;
+                    } catch (Exception e) {
                         this.make(object);
                         break;
                     }
                 case "User":
-                    try{
-                    User datau = (User) em.createQuery(query).setParameter("param0", value).getSingleResult();
-                    datau.setAll((User) object);
-                    em.persist(datau);
-                    break;
-                    }catch(Exception e){
+                    try {
+                        User datau = (User) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                        datau.setAll((User) object);
+                        em.persist(datau);
+                        break;
+                    } catch (Exception e) {
                         this.make(object);
                         break;
                     }
                 case "Meeting":
-                    try{
-                    Meeting datam = (Meeting) em.createQuery(query).setParameter("param0", value).getSingleResult();
-                    datam.setAll((Meeting) object);
-                    em.persist(datam);
-                    break;
-                    }catch(Exception e){
+                    try {
+                        Meeting datam = (Meeting) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                        datam.setAll((Meeting) object);
+                        em.persist(datam);
+                        break;
+                    } catch (Exception e) {
                         this.make(object);
                         break;
                     }
-                      case "Class":
-                    try{
-                    Class datac = (Class) em.createQuery(query).setParameter("param0", value).getSingleResult();
-                    datac.setAll((Class) object);
-                    em.persist(datac);
-                    break;
-                    }catch(Exception e){
-                         query = "SELECT o FROM Topic o WHERE  o.description=\""+((Class) object).getTopicId().getDescription()+"\"";
-                         Topic tp=(Topic)em.createQuery(query).getSingleResult();
-                        ((Class)object).setTopicId(tp);
-                         this.make(object);
+                case "Class":
+                    try {
+                        Class datac = (Class) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                        datac.setAll((Class) object);
+                        em.persist(datac);
+                        break;
+                    } catch (Exception e) {
+                        query = "SELECT o FROM Topic o WHERE  o.description=\"" + ((Class) object).getTopicId().getDescription() + "\"";
+                        Topic tp = (Topic) em.createQuery(query).getSingleResult();
+                        ((Class) object).setTopicId(tp);
+                        this.make(object);
                         break;
                     }
-                    case "Contact":
-                    try{
-                    Contact datact = (Contact) em.createQuery(query).setParameter("param0", value).getSingleResult();
-                    datact.setAll((Contact) object);
-                    em.persist(datact);
-                    break;
-                    }catch(Exception e){
-                         this.make(object);
+                case "Contact":
+                    try {
+                        Contact datact = (Contact) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                        datact.setAll((Contact) object);
+                        em.persist(datact);
+                        break;
+                    } catch (Exception e) {
+                        this.make(object);
                         break;
                     }
-                      case "Classteacher":
-                    try{
-                    Classteacher dataclat = (Classteacher) em.createQuery(query).setParameter("param0", value).getSingleResult();
-                    dataclat.setAll((Contact) object);
-                    em.persist(dataclat);
-                    break;
-                    }catch(Exception e){
-                         this.make(object);
+                case "Classteacher":
+                    try {
+                        Classteacher dataclat = (Classteacher) em.createQuery(query).setParameter("param0", value).getSingleResult();
+                        dataclat.setAll((Contact) object);
+                        em.persist(dataclat);
+                        break;
+                    } catch (Exception e) {
+                        this.make(object);
                         break;
                     }
-                      default:
-                          this.make(object);
-                          break;
+                default:
+                    this.make(object);
+                    break;
             }
             em.getTransaction().commit();
+            em.flush();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            em.flush();
             return false;
         }
 
-
     }
-
 
     @Override
     public boolean deleteByCriteria(T object, List<String> crit, List values) throws Exception {
-        EntityManager em = emf.createEntityManager();
         String perclass = object.getClass().getSimpleName();
         String query = "DELETE FROM " + perclass + " o WHERE ";
         query += crit.get(0) + ":param" + String.valueOf(0);
@@ -209,17 +217,19 @@ private static EntityManager em;
         for (int i = 1; i < crit.size(); i++) {
             query += " AND " + crit.get(i) + ":param" + String.valueOf(i);
         }
-em.getTransaction().begin();
+        em.getTransaction().begin();
         Query quer = em.createQuery(query);
-                
+
         for (int i = 0; i < crit.size(); i++) {
             quer.setParameter("param" + String.valueOf(i), values.get(i));
         }
-        try{
-        quer.executeUpdate();
-        return true;}
-        catch(Exception e){
+        try {
+            quer.executeUpdate();
+            em.flush();
+            return true;
+        } catch (Exception e) {
             e.printStackTrace();
+            em.flush();
             return false;
         }
 
